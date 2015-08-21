@@ -1,0 +1,22 @@
+- Open Xcode. The instructions for either are the same.
+- In the menu bar, click "File" → "New" → "New Project…".
+- Select "Other" under "OS X".
+- Select "External Build System" and click "Next".
+- Enter the product name, organization name, and company identifier.
+- For the "Build Tool" field, type in /usr/local/bin/python3 for Python 3 or /usr/bin/python for Python 2 (or Python 1 if you're into that kind of thing) and then click "Next". Note that this assumes you have Python installed in the typical location(s). if you are unsure as to where your Python executables are enter these commands into Terminal: which python3 and which python.
+- Click "Next".
+- Choose where to save it and click "Create".
+- In the menu bar, click "File" → "New" → "New File…".
+- Select "Other" under "OS X".
+- Select "Empty" and click "Next".
+- Navigate to the project folder (it will not work, otherwise), enter the name of the Python file (include the ".py" extension), and click "Create".
+- In the menu bar, click "Product" → "Scheme" → "Edit Scheme…".
+- Click "Run" in the left column.
+- In the "Info" tab, click the "Executable" field and then click "Other…".
+- Navigate to the executable from Step 6. You may need to use ⇧⌘G to type in the directory if it is hidden.
+- Select the executable and click "Choose".
+- Uncheck "Debug executable". If you skip this step, Xcode will try to debug the Python executable itself. I am unaware of a way to integrate an external debugging tool into Xcode.
+- Click the "+" icon under "Arguments Passed On Launch". You may have to expand that section by clicking on the triangle pointing to the right.
+Type in $(SRCROOT)/ (or $(SOURCE_ROOT)/) and then the name of the Python file you want to test. Remember, the Python program must be in the project folder. Otherwise, you will have to type out the full path (or relative path if it's in a subfolder of the project folder) here. If there are spaces anywhere in the full path, you must include quotation marks at the beginning and end of this.
+- Click "Close".
+- Start coding.
