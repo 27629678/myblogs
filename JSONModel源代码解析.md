@@ -36,4 +36,16 @@ NSDecimalNumber* dcm = [NSDecimalNumber initWithMantissa:(unsigned long long)man
 
 - load:该方法当任何一个类被添加到运行时系统时被执行一次；
 
+###- class_copyPropertyList(Class cls, unsigned int *count)
+
+用于获取类下所有被声明的属性
+
+###- property_getName(objc_property_t)
+
+用于获取被声明属性的名字
+
+###- property_getAttributes(objc_property_t)
+
+用于获取属性名字的描述性的属性
+
 **更多详细介绍请查看官方文档**
