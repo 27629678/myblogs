@@ -10,5 +10,5 @@ Print value of a symbolic link or canonical file name
               sively; all but the last component must exist
 
 ```
-$greadlink -f file.md		=> "Users/$/.../filemd"
+$greadlink -f file.md		=> "Users/$/.../file.md"
 ```
