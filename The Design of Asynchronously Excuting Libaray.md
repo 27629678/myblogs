@@ -9,6 +9,7 @@
 - [javascript promise][1]
 - [promisejs.org][2]
 - [Promise][3]
+- [Promise/A+ Specification][4]
 
 
 
@@ -27,3 +28,4 @@
 [1]:http://www.html5rocks.com/en/tutorials/es6/promises/
 [2]:https://www.promisejs.org/
 [3]:https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Promise
+[4]:http://promises-aplus.github.io/promises-spec/

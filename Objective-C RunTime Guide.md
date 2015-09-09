@@ -101,7 +101,7 @@ void dynamicMethodIMP(id self, SEL _cmd) {
 
 可以使用该方法来模拟多重继承，如下图所示：
 
-![figure-mutiple_inheritance](/Users/H-YXH/Documents/markdown/wordpress/objective-c_runtime_guide_mutipule-inheritance.png)
+![figure-mutiple_inheritance](./Resources/objective-c_runtime_guide_mutipule-inheritance.png)
 
 -----
 
