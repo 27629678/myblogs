@@ -13,3 +13,9 @@ canonicalize  by  following  every  symlink  in every component of the given nam
 ```
 $greadlink -f file.md		=> "Users/$/.../file.md"
 ```
+
+>NOTE:
+>
+> greadlink is a tool in coreutils(GNU)
+> 
+> `brew install coreutils` to install coreutils
