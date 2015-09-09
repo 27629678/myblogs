@@ -59,3 +59,106 @@ var global = this;	// 定义一个引用全局对象的全局变量
 - 如果两个值为数字且相等，则它们相等
 - 如果两个值为字符串且所含的对应位上的16位数完全相等，则它们相等
 - 如果两个引用值指向同一个对象/数组/函数，则它们相等。如果指向不同的对象，则它们不相等，尽管两个对象具有完全一样的属性
+
+###5、对象
+
+除了`字符串`、`数字`、`true`、`false`、`null`和`undefined`之外，JavaScript中的值都是**对象**。`属性`包括名字和值，属性名可以是包括空字符串在内的任意字符串，但**对象**中不能存在两个同名的属性，值可以是任意JavaScript值。
+
+####-5.1 原型
+
+每个JavaScript对象（null除外）都和另一个对象关联，“另一个”对象就是我们熟知的**原型**，每个对象都是从**原型**继承属性。
+
+####-5.2 删除属性
+
+`delete`运算符只能删除自有属性，不能删除继承属性（要删除继承属性必须从定义这个属性的原型对象上删除，而且这会影响到所有继承自这个原型的对象）。
+
+####-5.3 检测属性
+
+可以通过`in运算符`、`hasOwnProperty()`和`propertyIsEnumerable()`三个方法来完成检测属性的工作。
+
+```
+var o = {x:1}
+"x" in o;			// true, "x"是o的属性
+"y" in o;			// false, "y"不是o的属性
+"toString" in o;	// true, o继承自toString属性
+```
+
+`hasProperty()`方法用来检测给定的名字是否是对象的自有属性，对于继承属性它返回false。
+
+```
+var o = {x:1}
+o.hasProperty("x");			// true, "x"是o的属性
+o.hasProperty("y");			// false, "y"不是o的属性
+o.hasProperty("toString");	// false, toString是继承属性
+```
+
+`propertyIsEnumerable()`是`hasProperty()`的增强版，只有检测是自有属性且这个属性是**可枚举（enumerable attribute）**时为true，且某些内置属性是不可枚举的，例如toString属性。
+
+```
+var o = inherit({x:1})
+0.x = 1;
+o.propertyIsEnumerable("x");			// true, o有一个可枚举自有属性
+o.propertyIsEnumerable("y");			// false, y是继承属性
+Object.prototype.propertyIsEnumerable("toString"); // false, 不可枚举
+```
+
+####-5.4、属性的特性
+
+对于库开发者来讲，设置属性特性的API是非常重要的，因为：
+
+- 可以通过API给原型对象添加方法，并将它们设置成不可枚举的，这让它们看起来更像内置方法
+- 可能通过API给对象定义不能修改或删除的属性，借此“锁定”这个对象
+
+数据属性的4个特性分别是：
+
+- 值（value）
+- 可写性（writable）
+- 可枚举性（enumerable）
+- 可配置性（configurable）
+
+可以通过`Object.getOwnPropertyDescriptor()`获得对象特定属性的描述符：
+
+```
+// return {value:1, writable:true, enumerable:true, configurable:true}
+Object.getOwnPropertyDescriptor({x:1}, "x")
+```
+
+可以通过`Object.defineProperty()`传入要修改的对象，要创建的属性的名称及属性描述符：
+
+```
+var o = {}	// create a new object
+
+// add a unenumerable property
+Object.defineProperty(o, "x", {value:1, writable:true,enumerable:false,configurable:true})
+
+// 属性存在，但不可枚举
+o.x					// => 1
+Object.keys[o]	// => []
+
+// 现在对属性x做修改，让它只读
+Object.defineProperty(o, "x", {writable:false})
+
+o.x = 2			// 操作失败但不报错，而在严格模式中抛出类型错误异常
+o.x					// => 1
+
+// 属性依然是可配置的，因此可以通过这种方式修改
+Object.defineProperty(o, "x", {value:2})
+
+// 现在将x从数据属性修改存取器属性
+Object.defineProperty(o, "x", {get:function () {return 0;})
+
+o.x 				// => 0
+
+```
+
+####-5.5、序列化对象
+
+对象序列化（serialization）是指将对象的状态转换为字符串，也可将字符串还原为对象。
+
+提供了`JSON.stringify()`和`JSON.parse()`用来序列化和还原JavaScript对象，JSON的全称是Java Script Object Notation。
+
+```
+o = {x:1, y:{z:[false, null, ""]}}		// 定义一个测试对象
+s = JSON.stringify(0)						// s是'{"x":1,"y":{"z":[false, null, ""]}}'
+p = JSON.parse(s)							// p是o的拷贝
+```
