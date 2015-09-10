@@ -14,6 +14,27 @@
 
 点击工程文件，切到`info Tab`,定位到`Configurations`选项（实际上这个 tab 下的选项并不多，一眼就瞄到了），点开`Configurations`前面的小箭头，看到了分为`Debug`和`Release`，分别点击`Debug`与`Release`选择对应的 xcconfig 文件（Debug 对应 Debug.xcconfig，Release 对应 Release.xcconfig）。
 
+####2、给类起个别名
+
+**@compatibility_alis**
+
+This is a feature of the Objective-C compiler rather than of the runtime, anyway since it is documented nowhere and its existence was forgotten, we are documenting it here.
+
+The keyword @compatibility_alias allows you to define a class name as equivalent to another class name. For example:
+
+```
+@compatibility_alias WOApplication GSWApplication;
+```
+
+tells the compiler that each time it encounters WOApplication as a class name, it should replace it with GSWApplication (that is, WOApplication is just an alias for GSWApplication).
+
+There are some constraints on how this can be used--
+
+- WOApplication (the alias) must not be an existing class;
+- GSWApplication (the real class) must be an existing class.
+
+>NOTE:`@compatibility_alis`是用于给一个类设置一个别名,这样就不用重构以前的类文件就可以用新的名字来替代原有名字。
+
 ###二、iOS 自动打包教程
 
 打包常用命令行工具（如何下载请自行脑补）：xcodebuild和xcrun。
