@@ -1,6 +1,20 @@
 #ios自动编译打包工具
 
-###iOS 自动打包教程
+###一、XCode配置方法
+
+####1、xcconfig文件
+
+目标：解耦工程配置文件
+
+#####- 关于xcconfig 文件
+
+`xcconfig`文件是一个用来保存`build setting`键值对的纯文本文件, 这些键值对会覆盖`build setting`中的值，所以当你在`xcconfig`文件中配置了的选项在`build setting` 中保持默认值就好了（因为是什么都不会起作用了）。
+
+#####- 如何使用
+
+点击工程文件，切到`info Tab`,定位到`Configurations`选项（实际上这个 tab 下的选项并不多，一眼就瞄到了），点开`Configurations`前面的小箭头，看到了分为`Debug`和`Release`，分别点击`Debug`与`Release`选择对应的 xcconfig 文件（Debug 对应 Debug.xcconfig，Release 对应 Release.xcconfig）。
+
+###二、iOS 自动打包教程
 
 打包常用命令行工具（如何下载请自行脑补）：xcodebuild和xcrun。
 
@@ -49,9 +63,6 @@ uploadItemsServicesFiles:   将itms-services协议文件上传到服务器
 [Source Code @github](https://github.com/lexrus/ios-makefile)
 
 
-[1]:https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man1/xcodebuild.1.html
-
-
 引用的文章：
 
 - http://www.cnblogs.com/brycezhang/p/4097487.html
@@ -60,3 +71,7 @@ uploadItemsServicesFiles:   将itms-services协议文件上传到服务器
 - http://www.shangxueba.com/jingyan/1841475.html
 
 - http://my.oschina.net/LangZiAiFer/blog/299374?p=1
+
+
+<!--引用链接-->
+[1]:https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man1/xcodebuild.1.html
