@@ -162,3 +162,61 @@ o = {x:1, y:{z:[false, null, ""]}}		// 定义一个测试对象
 s = JSON.stringify(0)						// s是'{"x":1,"y":{"z":[false, null, ""]}}'
 p = JSON.parse(s)							// p是o的深拷贝
 ```
+
+###6、函数
+
+- subroutine:子例程
+- procedure:过程
+- parameter:形参
+- argument:实参
+- context:上下文，函数作为对象的属性称为对象的方法，此时这个对象就称为函数的上下文
+- constructor:构造函数
+- closure:闭包，定义在函数中并可以使用作用域中的任何变量，此时的函数构成了闭包
+
+>NOTE：参数有形参（parameter）和实参（argument）的区别，形参相当函数中定义的变量，实参是在运行时的函数调用时传入的参数。
+
+####- 6.1、函数全名
+
+当函数名包含多个单词时，一种约定是将单词以下划线分隔，就像like_this()。还有另外一种约定，就是除了第一个单词首字母使用大写字母，就像LikeThis()。有一些函数是用作内部函数或私有函数通常以一条下划线为前缀。
+
+####- 6.2、函数调用
+
+- 作为函数
+- 作为方法
+- 作为构造函数
+- 通过它们的call()和apply()方法间接调用
+
+>NOTE:JavaScript中的函数也是**对象**，和其它JavaScript对象没有什么两样，函数对象也可以包含方法，即call()和apply()两个间接调用方法。
+
+####- 6.3、可变长参数列表
+
+在函数体内，标识符**arguments**是指向实参对象的引用，实参对象是一个类数组对象。
+
+```
+function f(x,y,z)
+{
+	// verify arguments length
+	if (arguments.length != 3) {
+		// print error
+	}
+	
+	...
+}
+```
+
+>NOTE:大多数情况下，JavaScript的默认行为是省略的实参是**undefined**,多出的参数会自动省略的
+
+```
+// varargs function
+function max(/* ... */)
+{
+	var max = Number.NEGATIVE_INFINITY
+	
+	for (var i = 0; i < arguments.length; i ++)
+	{
+		if (max < arguments[i]) max = arguments[i]
+	}
+	
+	return max
+}
+```
