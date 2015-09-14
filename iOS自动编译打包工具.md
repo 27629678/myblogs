@@ -16,7 +16,7 @@
 
 ####2、给类起个别名
 
-**@compatibility_alis**
+**@compatibility_alias**
 
 This is a feature of the Objective-C compiler rather than of the runtime, anyway since it is documented nowhere and its existence was forgotten, we are documenting it here.
 
@@ -34,6 +34,17 @@ There are some constraints on how this can be used--
 - GSWApplication (the real class) must be an existing class.
 
 >NOTE:`@compatibility_alis`是用于给一个类设置一个别名,这样就不用重构以前的类文件就可以用新的名字来替代原有名字。
+
+####3、@import的使用
+
+与#import的区别：
+
+- 编译时自动导入系统的`Framework`
+- 比`#import`更加高效
+- 可以导入部分模块，如`@import Foundation.NSString`
+
+>NOTE:@import主要使用在写framework时使用，平时写应用程序建议不要使用
+
 
 ###二、iOS 自动打包教程
 
