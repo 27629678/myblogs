@@ -45,6 +45,25 @@ There are some constraints on how this can be used--
 
 >NOTE:@import主要使用在写framework时使用，平时写应用程序建议不要使用
 
+####4、添加警告
+
+1、普通警告
+
+```
+#warning TODO
+```
+
+2、接口弃用警告
+
+```
+- (void)addTapAction:(SEL)tapAction target:(id)target NS_DEPRECATED_IOS(2_0, 4_0);
+```
+
+3、接口附带警告信息
+
+```
+- (void)addTapAction:(SEL)tapAction target:(id)target __attribute((deprecated("这个接口会爆内存 不建议使用")));
+```
 
 ###二、iOS 自动打包教程
 
