@@ -46,6 +46,11 @@ func application(UIApplication, continueUserActivity userActivity:NSUserActivity
 
 ```
 
+![spotlight][spotlight_show]
+
+
+>NOTE:Although only the title, uniqueIdentifier, and attributeSet properties are required, it’s highly recommended that you also provide content-specific values for the thumbnailData and contentDescription properties.
+
 ####- update item
 
 same method as adding item to index
@@ -75,3 +80,10 @@ delete all items
 ```
 func deleteAllSearchableItemsWithCompletionHandler(completionHandler:((NSError?)->Void)?)
 ```
+
+>NOTE:The items you index using Core Spotlight APIs are not added to Apple’s server-side index or synced between devices. 
+
+
+<!--links-->
+
+[spotlight_show]:./Resources/709_spotlight_show.png
