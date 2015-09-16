@@ -13,6 +13,8 @@ three apis:
 - methods to add/update and delete items
 - used by mail/calendar and so on
 
+>NOTE:Although app search is available for iOS 9 users, the search functionality of NSUserActivity and Core Spotlight is not supported on iPhone 4s, iPad 2, iPad (3rd generation), iPad mini, and iPod touch (5th generation).
+
 ####- create item
 
 ```
