@@ -85,6 +85,34 @@ func deleteAllSearchableItemsWithCompletionHandler(completionHandler:((NSError?)
 
 >NOTE:The items you index using Core Spotlight APIs are not added to Apple’s server-side index or synced between devices. 
 
+####- reindex
+
+reindex all searchable data and clear all local state information
+
+```
+func searchableIndex(_ searchableIndex: CSSearchableIndex,
+reindexAllSearchableItemsWithAcknowledgementHandler acknowledgementHandler: () -> Void)
+```
+
+reindex the searchable items associated with the specified identifiers
+
+```
+ func searchableIndex(_ searchableIndex: CSSearchableIndex,
+reindexSearchableItemsWithIdentifiers identifiers: [String],
+               acknowledgementHandler acknowledgementHandler: () -> Void)
+```
+
+instance a new searchable index
+
+```
+let index = init(name name: String)
+```
+
+>NOTE:If you want to use batching or you want to index items in a specific protection class, you need to use your own index (you can’t perform batch updates on the **default index**).
+
+-----
+
+>NOTE:when a searchable item is expired, it does not mean that the item has lost from iOS 9.
 
 <!--links-->
 
