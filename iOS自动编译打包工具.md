@@ -113,6 +113,12 @@ uploadItemsServicesFiles:   将itms-services协议文件上传到服务器
 
 [Source Code @github](https://github.com/lexrus/ios-makefile)
 
+>NOTE:如果您的应用构建需要使用scheme，请确保使用移动服务平台前，如下配置您的目标scheme。
+>1 Xcode进入product-> scheme -> manage schemes
+>2 将您的目标scheme 后面的 shared 勾选框勾中
+>3 提交以上修改到代码库中
+
+[stackoverflow](http://stackoverflow.com/questions/14368938/xcodebuild-says-does-not-contain-scheme)
 
 引用的文章：
 
