@@ -107,6 +107,5 @@ $ lldb
 执行表达式：
 
 ```
-
 (lldb) expr (int) printf ("I have a pointer 0x%llx.\n", self)
 ```
