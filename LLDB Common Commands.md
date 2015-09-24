@@ -45,3 +45,68 @@ Objective-C方法：
 // unalias
 (lldb) command unalias b
 ```
+
+显示已经设置的断点：
+
+```
+(lldb) breakpoint list
+Current breakpoints:
+1: name = 'alignLeftEdges:', locations = 1, resolved = 1
+  1.1: where = Sketch`-[SKTGraphicView alignLeftEdges:] + 33 at /Projects/Sketch/SKTGraphicView.m:1405, address = 0x0000000100010d5b, resolved, hit count = 0
+```
+
+删除和禁用指定的断点：
+
+```
+(lldb) breakpoint [delete|disable] <breakpt-id>
+```
+
+###2、设置WatchPoint
+
+>NOTE:与BreakPoint类似，使用`help [command] <subcommand>`查看相关的指令文档
+
+###3、加载可执行文件
+
+加载：
+
+```
+$ lldb /Projects/Sketch/build/Debug/Sketch.app 
+$ lldb 
+(lldb) file /Projects/Sketch/build/Debug/Sketch.app
+```
+
+运行：
+
+```
+(lldb) process launch 
+(lldb) run 
+(lldb) r
+```
+
+```
+// pid
+(lldb) process attach --pid 123 
+
+// process name
+(lldb) process attach --name Sketch 
+
+// wait for process to show up
+(lldb) process attach --name Sketch --waitfor
+```
+
+控制：
+
+```
+(lldb) thread continue	  // stop until hid the breakpt
+(lldb) thread step-in    // The same as gdb's "step" or "s" 
+(lldb) thread step-over  // The same as gdb's "next" or "n"
+(lldb) thread step-out   // The same as gdb's "finish" or "f"
+(lldb) thread until 100	  // run to line 100
+```
+
+执行表达式：
+
+```
+
+(lldb) expr (int) printf ("I have a pointer 0x%llx.\n", self)
+```
