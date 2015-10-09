@@ -65,7 +65,7 @@ There are some constraints on how this can be used--
 - (void)addTapAction:(SEL)tapAction target:(id)target __attribute((deprecated("这个接口会爆内存 不建议使用")));
 ```
 
-####5、\_\_attribute\_\_(oninline)
+####5、\_\_attribute\_\_(noinline)
 
 ```
 __attribute__((noinline)) void warnOnMissingEventName() {
