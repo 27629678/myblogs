@@ -1,6 +1,6 @@
 #ios自动编译打包工具
 
-###一、XCode配置方法
+##一、XCode配置方法
 
 ####1、xcconfig文件
 
@@ -65,7 +65,18 @@ There are some constraints on how this can be used--
 - (void)addTapAction:(SEL)tapAction target:(id)target __attribute((deprecated("这个接口会爆内存 不建议使用")));
 ```
 
-###二、iOS 自动打包教程
+####5、\_\_attribute\_\_(oninline)
+
+```
+__attribute__((noinline)) void warnOnMissingEventName() {
+    NSLog(@"Warning: Missing event name when logging bolts measurement event. \n"
+          " Ignoring this event in logging.");
+}
+```
+
+>没有什么特别的作用，告诉编译器不要将该矮小的代码段优化成**inline**的方法
+
+##二、iOS 自动打包教程
 
 打包常用命令行工具（如何下载请自行脑补）：xcodebuild和xcrun。
 
