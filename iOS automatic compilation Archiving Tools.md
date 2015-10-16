@@ -74,7 +74,7 @@ __attribute__((noinline)) void warnOnMissingEventName() {
 }
 ```
 
->没有什么特别的作用，告诉编译器不要将该矮小的代码段优化成**inline**的方法
+>没有什么特别的作用，告诉编译器不要将该短小的代码段优化成**inline**的方法，类似的还有`__attribute__((always_inline))`等;
 
 ##二、iOS 自动打包教程
 
