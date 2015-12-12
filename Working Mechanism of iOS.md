@@ -14,3 +14,11 @@ Consider the workflow that occurs when loading an image from disk and displaying
 	- The uncompressed bitmap data is then used by Core Animation to render the layer.
 
 **These costs can easily accumulate and kill perceived application performance.** Especially while scrolling, users are presented with an unsatisfying user experience that is not in line with the the overall iOS experience.
+
+------
+
+1 60FPS ≈ 0.01666s per frame = 16.7ms per frame. This means that any main-thread work that takes longer than 16ms will cause your application to drop animation frames.
+
+2 The documentation for CALayer's contents property states that "assigning a value to this property causes the layer to use your image rather than [creating] a separate backing store." However, the meaning of "use your image" is still vague. Profiling an application using Instruments often reveals calls to CA::Render::copy_image, even when the Core Animation Instrument has indicated that none of the images have been copied. One reason that Core Animation will require a copy of an image is improper byte alignment.
+
+3 As of iOS 7, Apple does not make their hardware JPEG decoder available for third-party applications to use. As a result, only a slower, software decoder is used for this step.
