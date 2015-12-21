@@ -220,3 +220,11 @@ function max(/* ... */)
 	return max
 }
 ```
+
+###13、浏览器中的JavaScript
+
+####13.3 JavaScript程序的执行
+
+客户端JavaScript程序没有严格的定义，所有这些单独的代码共用同一个全局`Window`对象，这意味着它们都可以看到相同的`Document`对象，可以共享相同的全局函数和变量的集合：如果一个脚本定义了新的全局变量和函数，那么这个变量或函数会在脚本执行之后对任意的JavaScript代码可见。
+
+如果Web页面包含一个嵌入的窗体（通常使用<iframe>元素），嵌入文档中的JavaScript代码和被嵌入文档里的JavaScript代码会有不同的全局对象，它可以当作一个单独的JavaScript程序。
