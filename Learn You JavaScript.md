@@ -227,4 +227,60 @@ function max(/* ... */)
 
 客户端JavaScript程序没有严格的定义，所有这些单独的代码共用同一个全局`Window`对象，这意味着它们都可以看到相同的`Document`对象，可以共享相同的全局函数和变量的集合：如果一个脚本定义了新的全局变量和函数，那么这个变量或函数会在脚本执行之后对任意的JavaScript代码可见。
 
-如果Web页面包含一个嵌入的窗体（通常使用<iframe>元素），嵌入文档中的JavaScript代码和被嵌入文档里的JavaScript代码会有不同的全局对象，它可以当作一个单独的JavaScript程序。
+如果Web页面包含一个嵌入的窗体（通常使用\<iframe\J>元素），嵌入文档中的JavaScript代码和被嵌入文档里的JavaScript代码会有不同的全局对象，它可以当作一个单独的JavaScript程序。
+
+###14、Window对象
+
+####14.1 Timer
+
+如果以0毫秒的超时时间来调用`setTimeOut()`，那么指定的函数不会立即执行。相反，会把它入到队列中，等到前面处于等待状态的事件处理程序全部执行完成后，再“立即”调用它。
+
+####14.2 Location
+
+Document对象的location属性也引用到Location对象；
+
+```
+window.location === document.location	// 总是返回true
+```
+
+Document对象也有一个URL属性，是文档首次载入后保存该文档的URL的静态字符串。如果定位到文档中的片段标识符（如#table-of-contents），location对象会做相反的更新，而document.URL属性却不会改变。
+
+#####14.2.1 Parser URL
+
+Location对象的hash和search属性比较有趣。如果有的话，hash属性的返回URL中的**片段标识符**部分；search属性也类似，返回的是问号之后的URL，这部分通常是某种类型的查询字符串。
+
+#####14.2.2 Load New Document
+
+Location对象的`assign()`方法可以使窗口输入并显示你指定的URL中的文档。`replace()`方法也类似，但是它在载入新的文档之前会删除浏览历史中的当前文档。
+
+如果脚本无条件地载入一个新的文档，`replace()`方法可能比`assign()`方法更好的选择。
+
+`#top`标识符是个特殊的例子：如果文档中没有元素的ID是“top”，它会让浏览器跳到文档的开始处。
+
+```
+location = "#top";		// 跳转到文档的顶部
+```
+
+####14.3 History
+
+出于安全考虑，脚本无法访问已保存的URL历史。
+
+History对象的`back()`和`forward()`方法与浏览器的“后退”和“前进”按钮一样：它们使浏览器在浏览历史中前后跳转一格。第三个方法——`go()`方法接受一个整数参数，可以在历史列表中向前（正参数）或向后（负参数）跳过任意多个页。
+
+####14.4 Navigator
+
+navigator对象：
+
+- appName:Web浏览器的全称；
+- appVersion:此属性通常以数字开始；
+- userAgent:浏览器在它的USER-AGENT HTTP头部中发送的字符串；
+- platform:在其上运行浏览器的操作系统的字符串；
+- onLine:浏览器当前是否连接到网络；
+- geolocation:确定用户地理位置信息的接口；
+- javaEnabled():一个非标准的方法，当浏览器可以运行java小程序时返回true；
+- cookieEnable():非标准方法，如果浏览器可以存储永久的cookie时，返回true。当cookie配置为“视具体情况而定”时可能返回不正确的值；
+
+####14.8 Window的打开与关闭
+
+- window.open():四个参数略；
+- window.close():关闭一个窗口；
