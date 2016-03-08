@@ -37,7 +37,44 @@
 ###Interests
 ****
 想做一枚游戏个人开发者，做自己想要做的游戏给大家玩。
+
+###MyToys:
+
+****
+2016年入手的玩具：
+
+- 三星上网本（win10)
 	
+****
+2015年入手的玩具：
+
+- poker3机械键盘
+- raspberry pi 2 B+
+- AKG 450耳机
+- 车载吸尘器
+- OnePlus 2(16G碳黑）
+- iPhone 6S(16G灰)
+- OpenWrt路由器
+
+****
+2014年入手的玩具：
+
+- iPad air2（64G）
+- 高清摄像头（罗技）
+- 红米Note手机
+- Google Nexus 5手机
+- MacBookPro(13寸）
+
+****
+2013年入手的玩具：
+
+- iPod Shuffle（蓝）
+- iPhone 4S（16G白）
+- Kindle Paperwhite(Wi-Fi版）
 
 [1]:./Resources/MailMasterPro_2016-01-30.png
 [2]:./Resources/MailMaster_2016-01-30.png
+
+	
+
+	
