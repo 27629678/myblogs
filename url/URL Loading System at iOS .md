@@ -398,6 +398,79 @@ code snippet:App delegate methods for iOS background downloads
 
 ##·Using NSURLConnection
 
+（待补充）
+
+
+## ·Understanding Cache Access
+
+`URLLoadingSystem`提供了**本地**和**内存**组合的方式缓存`Request`的响应数据，即`Responses`。这种缓存使用应用程序对网络的依赖降低，从而提高了应用的性能。
+
+### ·Using the Cache for Request
+
+`CachePolicy`包含以下选项：
+
+- `NSURLRequestUseProtocolCachePolicy `：默认的Policy，它的具体行为由协议来指定；
+- `NSURLRequestReloadIgnoringCacheData `：直接忽略任何缓存的数据；
+- `NSURLRequestReturnCacheDataElseLoad`：忽略过期时间直接使用缓存数据，当且仅当没有缓存时才从数据源（originating source）拉数据；
+- `NSURLRequestReturnCacheDataDontLoad `：仅从缓存中读取数据；若缓存没有数据直接返回空的响应数据，用于做**离线模式**的功能；
+
+> **NOTE：**当前仅支持对`Http`和`Https`的响应数据进行缓存，`FTP`和`文件（File)`协议仅能尝试访问原始数据源所允许的缓存策略；自定义的`NSURLProtocol `类可以提供可选的缓存策略；
+
+### ·Cache Use Semantics for the HTTP Protocol
+
+最复杂的缓存策略的使用情况是请求`HTTP`协议并指定了缓存策略为`NSURLRequestUseProtocolCachePolicy`，如下：
+
+1. 若缓存不存在，`URL Loading System`将从原始数据源摘取数据；
+2. 若缓存的数据已经存在并指定数据重新验证的情况下，`URL Loading System`要对数据进行重新验证，即向原始数据源询问（HEAD Request）数据是否发生变化，如果没有发生变化直接将缓存的数据返回；若发生了变化直接从原始数据源拉取数据并返回；
+3. 若缓存数据已经存在但是没有指定数据重新验证，`URL Loading System`会检查数据有效性（是否过期等），如数据有效则直接返回；若数据已经无效，则向原始数据源询问数据是否发生变化，如果没有发生变化返回缓存的数据；若发生了变化直接从原始数据源拉取新的数据并返回；
+
+[RFC 2616, Section 13](https://www.w3.org/Protocols/rfc2616/rfc2616-sec13.html#sec13)对缓存的语义做了详细的介绍。
+
+### ·Controlling Caching Programmatically
+
+默认情况下，连接的数据是否缓存基于请求的缓存策略，由`NSURLProtocol`类来处理。
+
+若应用想要更深入地控制如何缓存数据，可以实现一个`Delegate`方法用来决定指定的请求是否按需缓存，
+
+- 针对`NSURLSession `，实现`URLSession:dataTask:willCacheResponse:completionHandler:`方法，在实现内**一定**要调用`completionHandler`block用于告诉**session**缓存什么数据；
+- 针对`NSURLConnection `，实现`connection:willCacheResponse:`方法，将缓存的数据作为返回值返回；
+
+在以上两种情况下，Delegate方法内可以把自定义数据`userinfo`存储于`NSCachedURLResponse`内；
+
+> **Important:**如果使用`NSURLSession`实现Delegate方法，你必须调用CompletionHandler Block，否则将引发内存泄漏；
+
+举个栗子（内存缓存和自定义数据）：
+
+```
+-(NSCachedURLResponse *)connection:(NSURLConnection *)connection
+                 willCacheResponse:(NSCachedURLResponse *)cachedResponse
+{
+    NSCachedURLResponse *newCachedResponse = cachedResponse;
+ 
+    NSDictionary *newUserInfo;
+    newUserInfo = [NSDictionary dictionaryWithObject:[NSDate date]
+                                                 forKey:@"Cached Date"];
+    if ([[[[cachedResponse response] URL] scheme] isEqual:@"https"]) {
+#if ALLOW_IN_MEMORY_CACHING
+        newCachedResponse = [[NSCachedURLResponse alloc]
+                                initWithResponse:[cachedResponse response]
+                                    data:[cachedResponse data]
+                                    userInfo:newUserInfo
+                                    storagePolicy:NSURLCacheStorageAllowedInMemoryOnly];
+#else // !ALLOW_IN_MEMORY_CACHING
+        newCachedResponse = nil
+#endif // ALLOW_IN_MEMORY_CACHING
+    } else {
+        newCachedResponse = [[NSCachedURLResponse alloc]
+                                initWithResponse:[cachedResponse response]
+                                    data:[cachedResponse data]
+                                    userInfo:newUserInfo
+                                    storagePolicy:[cachedResponse storagePolicy]];
+    }
+    return newCachedResponse;
+}
+```
+
 （持续翻译中）
 
 [原文链接][n]
