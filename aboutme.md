@@ -55,6 +55,7 @@
 - OnePlus 2(16G碳黑）
 - iPhone 6S(16G灰)
 - OpenWrt路由器
+- PENTAX(K-50)
 
 ****
 2014年入手的玩具：
