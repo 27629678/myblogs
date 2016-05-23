@@ -1,5 +1,9 @@
 ## 未捕获的异常与信号处理
 
+对于`iOS`操作系统，通过`@try-@catch-@finally`捕获的`Exception`可做吃掉异常的处理，一但没有特定的异常处理函数捕获相应的异常待到`UncaughtExceptionHandler：`方法处理时，该异常必引发`App`退出；
+
+而对于`OS-X`操作系统而言，可以引入`NSExceptonFramework`用于控制处理未捕获的异常后应用如何运行等等，详见`NSException Programming Topics`文档；但是对于已经使用`NSSetUncaughtExceptionHandler:`处理函数的应用程序，该框架也无济于事；
+
 ### Objective-C异常捕获
 
 使用`NSSetUncaughtExceptionHandler`方法注册一个异常处理函数，用于处理未捕获的异常；
