@@ -78,7 +78,22 @@
 
 其它待补充……
 
+### 三、同步时机
 
+#### 3.1、未读数同步
+
+- `applicationDidEnterBackground:`，若没有成功，重新同步账号和未读数
+
+#### 3.2、DeviceToken的订阅
+
+- 添加账号
+- 标记账号删除
+- `IMAP`账号更改服务器配置
+- `BackgroundFetch`中调用`manualCheckPushTriger:`方法
+
+#### 3.3、通知提醒项设置同步
+
+- 设置页中提醒配置变更时同步
 
 
 
