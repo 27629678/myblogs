@@ -9,7 +9,7 @@
 
 #### Platforms
 
-minum deployment
+minimum deployment
 
 ![platform_data_analize](./resources/213_platform_data_analize.png)
 
