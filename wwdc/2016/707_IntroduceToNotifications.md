@@ -90,3 +90,219 @@ Remote Notification
 	},
 }
 ```
+
+#### 2.2 Push Triggers
+
+1. Push
+2. TimeInterval
+3. Calendar
+4. Location
+
+### 3 Notification Handling
+
+#### 3.1 Application in foreground
+
+```
+// listing 6
+protocol UNUserNotificationCenterDelegate : NSObjectProtocol
+
+func userNotificationCenter(_ center : UNUserNotificationCenter, willPresent notification : UNNotification, withCompleteHandler completeHandler : (UNNotificationPresentOptions)->Void)
+```
+
+```
+// in-app presentation
+
+func userNotificationCenter(_ center : UNUserNotificationCenter, willPresent notification : UNNotification, withCompleteHandler completeHandler : (UNNotificationPresentOptions)->Void) {
+	// roll banner, and sound alert
+	completeHandler([.sound, .alert])
+}
+```
+
+### 4 Notification Management
+
+**Overview**
+
+- Access:
+
+	- Pending Notificatoins
+	- Delivered Notifications
+
+- Remove Notifications
+- Update and Promote Notifications
+
+#### 4.1 Request Identifier
+
+Local Notifications
+
+- set on notification request
+
+Remote Notifications
+
+- New field on the `Http/2` request header: `apns-collapse-id`
+
+```
+// listing 7
+// pending notfication removal
+
+let identifier = "game.start.identifier"
+let req = UNUserNotificationRequest(identifier:identifier, content:content, trigger:trigger)
+UNUserNotificationCenter.current().add(req) { (error) in // ... }
+
+// game start time was updated
+let updated_req = UNUserNotificationRequest(identifier:identifier, content:content, trigger:new_trigger)
+UNUserNotificationCenter.current().add(updated_req) { (error) in // ... }
+
+// game was cancelled
+UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers:[identifier])
+```
+
+### 5 Notification Actions
+
+#### 5.1 Actionable Notifications
+
+- Buttons with Customizable title
+- Text input(quick reply)
+- Background and Foreground actions
+- iOS and watchOS
+
+#### 5.2 Registeration
+
+```
+// listing 8
+// default belongs to background action
+
+let action = UNNotificationAction(identifier:"reply", title:"reply", options:[])
+
+let category = UNNotificationCategory(identifier:"message", actions:[action], minimalActions:[action], intentIdentifiers:[], options:[])
+
+UNUserNotificationCenter.current().setNotificationCategories([category])
+
+```
+
+#### 5.3 Presentation
+
+```
+// listing 9
+// remote notifications
+
+{
+	"aps" : {
+		alert:"Welcome to WWDC!",
+		category:"message"
+	}
+	
+}
+
+// local notifications
+
+content.categoryIdentifier = "message"
+
+```
+
+#### 5.4 Dismiss Action
+
+##### 5.4.1 Category option
+
+```
+// listing 10
+
+customDismissAction: UNNotificationCategoryOptions
+
+let category = UNNotificationCategory(identifier:"message", actions:[action], minimalActions:[action], intentIdentifiers:[], options:[.customDismissAction])
+```
+
+#### 6 Response Handling
+
+```
+// listing 11
+
+protocol UNUserNotificatoinCenterDelegate: NSObjectprotocol
+
+func userNotificationCenter(_ center:UNUserNotificationCenter, didReceive response: UNNotificatonResponse, withCompleteHandler handler:()->Void)
+
+```
+
+![figure 2](./resources/707_ResponseHandling.png)
+
+figure 2, reponse handling	
+
+### 7 Service Extension
+
+Basics
+
+- Non UI iOS Extension
+- Augment or Replace the content of visible Remote Notifications
+
+> short time excution
+
+Potential uses
+
+- end-to-end encryption
+- add attachment
+
+![figure 3](./resources/707_notification_service_extension.png)
+
+figure 3, notificaton service extension
+
+> How to implement was ignored here.
+
+```
+// listing 12
+import UserNotifications
+
+class NotificationService: UNNotificationServiceExtension {
+
+    var contentHandler: ((UNNotificationContent) -> Void)?
+    var bestAttemptContent: UNMutableNotificationContent?
+
+    override func didReceive(_ request: UNNotificationRequest, withContentHandler contentHandler:(UNNotificationContent) -> Void) {
+        self.contentHandler = contentHandler
+        bestAttemptContent = (request.content.mutableCopy() as? UNMutableNotificationContent)
+        
+        if let bestAttemptContent = bestAttemptContent {
+            // Modify the notification content here...
+            bestAttemptContent.title = "\(bestAttemptContent.title) [modified]"
+            
+            contentHandler(bestAttemptContent)
+        }
+    }
+    
+    override func serviceExtensionTimeWillExpire() {
+        // Called just before the extension will be terminated by the system.
+        // Use this as an opportunity to deliver your "best attempt" at modified content, otherwise the original push payload will be used.
+        if let contentHandler = contentHandler, let bestAttemptContent =  bestAttemptContent {
+            contentHandler(bestAttemptContent)
+        }
+    }
+
+}
+```
+
+Example Payload
+
+```
+{
+	aps : {
+		alert: "New Message Available",
+		mutable-content: 1
+	},
+	
+	encrpted-content: "#myencryptedcontent",
+}
+
+// decrypt remote notification payload in service extension and update notification content
+
+	override func didReceive(_ request: UNNotificationRequest, withContentHandler contentHandler:(UNNotificationContent) -> Void) {
+        // decrypt payload
+        let decryptBody = decrypt(request.content.userInfo["encrpted-content"]
+        
+        let newContent = UNMutableNotificationContent()
+        
+        // modify the notification content
+        newContent.body = decryptBody
+        
+        // call content handler
+        contentHandler(newContent)
+    }
+
+```
