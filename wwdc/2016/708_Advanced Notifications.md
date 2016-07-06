@@ -4,6 +4,8 @@
 
 ![workflow](./resources/708_media_attachments.png)
 
+figure 1, service extension
+
 ```
 // 1st, payload
 
@@ -20,14 +22,16 @@ public class NENotificationService:UNNotificationServiceExtension {
 	override public func didReceive(_ request:UNNotificationRequest, withContentHandler contentHandler:(UNNotificationContent)->void {
 		let file_url = //...
 		
-		// notification surppot image, video and audio etc. 
-		// downloaded in service extension.
+		// notification surppot image(contains gif), video and audio etc. 
+		// downloaded in service extension, limited processing time and size
 		let attachment = UNNotificationAttachment(identifier:"image" url:file_url options:nil)
 		
 		// add attachment to notification
 		let content = request.content.mutableCopy as! UNMutableNotificationContent
 		content.attachments = [attachment]
 		contentHandler(content)
+		
+		// file is moved and managed by iOS system
 	}
 }
 
@@ -43,9 +47,11 @@ public class NENotificationService:UNNotificationServiceExtension {
 
 #### 1 `Notification` content extension
 
-**step 1**: create a new target:
+**step 1**: create a new target using templete:
 
 ![NotificationContent](./resources/708_notification_content.png)
+
+figure 2, content extension templete
 
 ```
 // minimal content extension
@@ -58,15 +64,18 @@ class NENotificationViewController:UIViewController, UNNotificationContentExtens
 		super.viewDidLoad()
 	}
 	
+	// delegate method
 	func didReceive(_ notification:UNNotification) {
 		label?.text = notification.request.content.body
 	}
 }
 ```
 
-**step 2**: telling system to find your service extension
+**step 2**: telling system to find your content extension
 
 ![extension_settings](./resources/708_notification_settings.png)
+
+figure 3, setting info.plist
 
 #### 2 Custom views
 
@@ -74,7 +83,13 @@ add ui components by code or in storyboard
 
 remove the highlighted item in following picture
 
+Default content
+
+UNNotificationExtensionDefaultContentHidden flag
+
 ![info.plist.settings1](./resources/708_notification_settings1.png)
+
+figure 4, hide default notification content view
 
 resize the view controller
 
@@ -83,7 +98,10 @@ resize the view controller
 
 class NENotificationViewController:UIViewController, UNNotificationContentExtension {
 	
-	@IBOutlet var label:UILabel?
+	@IBOutlet var eventTitel: UILabel!
+	@IBOutlet var eventDate: UILabel!
+	@IBOutlet var eventLocation: UILabel!
+	@IBOutlet var eventMessage: UILabel;
 	
 	oerride func viewDidLoad() {
 		super.viewDidLoad()
@@ -94,14 +112,48 @@ class NENotificationViewController:UIViewController, UNNotificationContentExtens
 	}
 	
 	func didReceive(_ notification:UNNotification) {
-		// ...
+		let content = notification.request.content
+		
+		eventTitle.text = content.title
+		eventDate.text = content.subtitle
+		eventMessage.text = content.body
+		
+		if let location = content.userInfo["location"] as ? String {
+			eventLocation.text = location
+		}
+		
+		// using notification content attachments
+		if let attachment = content.attachments.first {
+			if attachment.url.startAccessingSecurityScopedResource() {
+				eventImage.image = UIImage(contentOfFile: attachemnt.url.path!)
+				attachment.url.stopAccessingSecurityScopedResource()
+			}
+		}
 	}
 }
 ```
 
+Presentation size
+
+UNNotificationExtensionInitialContentSizeRatio flag
+
 ![content_size_ratio](./resources/708_content_size_ratio.png)
 
-#### 3 interaction with notification
+figure 5, setting content size ratio before code run
+
+#### 3 interaction with notification[Actions]
+
+##### 3.1 Default Action Handling
+
+Delivered to the app
+
+Notification gets dismissed immediately
+
+##### 3.2 Interacting Action Response
+
+Delivered to the extension
+
+Can delay dismissal
 
 ```
 // interacting notification action response
@@ -118,10 +170,70 @@ class NENotificationViewController:UIViewController, UNNotificationContentExtens
 				eventResponse.textColor = UIColor.red()
 			}
 			
-			done(.dismiss)
+			// done(.dismiss)
+			done(.disimssAndForwardAction)
 		}
 	}
 }
 ```
 
-custom input accessory view(ignored, to be continued...)
+##### 3.3 custom input accessory view
+
+```
+// text input action
+
+private func makeEventExtensionCategory() -> UNNotificationCategory {
+	
+	let commentAction = UNTextInputNotificationAction (
+			identifier: "comment",
+			title: "comment",
+			options: [],
+			textInputButtonTitle: "Send",
+			textInputPlaceholder: "Type here ...")
+	
+	return UNNotificationCategory(identifier : "event-invite",
+										actions: [acceptAction, declineAction, commentAction],
+										minialActions:[acceptAction, declineAciont],
+										intendIdentifier:[],
+										options: [])
+}
+```
+
+```
+// text input action response
+
+class NENotificationViewController:UIViewController, UNNotificationContentExtension {
+	func didReceive(_ response:UNNotificationResponse, completionHandler done:(UNNotificationContentExtensionResponseOption)->void) {
+		if let textResponse = response as ? UNTextInputNotificationResponse {
+			server.send(textResponse.userText)  {
+				done(.dismiss)
+			}
+		}
+	}
+}
+```
+
+```
+// custom input accessory view
+
+class NENotificationViewController:UIViewController, UNNotificationContentExtension {
+	override func canBecomeFirstResponder () -> Bool {
+		return true
+	}
+	
+	override var inputAccessoryView: UIView { get {
+			// create your own input accessory view
+			return inputView
+		}
+	}
+	
+	func didReceive(_ response: UNNotificationResponse,
+		completionHandler done: (UNNotificationContentExtensionResponseOption)->Void) {
+		if response.actionIdentifier == "comment" {
+			becomeFirstResponder()
+			textFiled.becomeFirstResponder()
+		}
+	}
+}
+
+```
