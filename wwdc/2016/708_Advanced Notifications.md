@@ -9,6 +9,7 @@ figure 1, service extension
 ```
 // 1st, payload
 
+// size: 256Bytes(iOS 8 before), 2kBytes(after iOS 8, before iOS 10), larger than 2kBytes(after iOS X, unmentioned exact number)
 {
 	aps:{
 		alert:{...},
@@ -180,7 +181,7 @@ class NENotificationViewController:UIViewController, UNNotificationContentExtens
 ##### 3.3 custom input accessory view
 
 ```
-// text input action
+// text input action (available after iOS9)
 
 private func makeEventExtensionCategory() -> UNNotificationCategory {
 	
@@ -237,3 +238,8 @@ class NENotificationViewController:UIViewController, UNNotificationContentExtens
 }
 
 ```
+
+#### 4 References
+
+- location notfication available after iOS8 (2014\_713\_What's new in notifications)
+- text input action on notification available after iOS9 (2015_720_What's new in notifications)
