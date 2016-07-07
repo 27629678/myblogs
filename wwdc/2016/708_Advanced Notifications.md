@@ -9,7 +9,7 @@ figure 1, service extension
 ```
 // 1st, payload
 
-// size: 256Bytes(iOS 8 before), 2kBytes(after iOS 8, before iOS 10), larger than 2kBytes(after iOS X, unmentioned exact number)
+// size: 256Bytes(iOS 8 before), 2kBytes(after iOS 8), 4kBytes(after iOS9), larger than 4kBytes(after iOS X, unmentioned exact number)
 {
 	aps:{
 		alert:{...},
