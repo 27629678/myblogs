@@ -122,3 +122,32 @@ for idx in 1..<5 {
 ```
 
 > **NOTE:**Use the `for-in` loop to iterate over a sequence, such as ranges of numbers, item in an array, or characters in a string.
+
+#### 2.4 Control Transfer
+
+- continue
+- break
+- fallthrough
+
+```
+let idx = 7
+
+switch idx {
+	case 1, 3, 5, 7:
+		print("\(idx) is a prime number")
+		fallthrough
+	case 2, 4, 6, 8:
+		print("\(idx) is an even number, ")
+		if idx > 4 {
+			print("\(idx) is greater than 4")
+			break
+		}
+		else {
+			print("\(idx) is less than, or equal to 4")
+		}	
+		
+		fallthrough
+	default:
+		print(", also is an integer number")
+}
+```
