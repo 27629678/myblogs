@@ -67,6 +67,40 @@ var statusCode: Int? = 404	// statusCode is a integer value or nil, can not be o
 
 statusCode = nil	// ?
 
+// the potential value for statusCode is nil or Int Type value
+
+var x: Int
+
+print(x)	// error, can not use uninitilized variable
+
+// the potential value for x is Int Type value, MUST NOT assign nil to x
+
+foo(statusCode)	// compiling error, value of not unwrapped; 
+// did you mean to use "!" or "?" ?
+
+foo(statusCode!) 
+
+// unitary ! operator only apply on unitary ? operator decorated variable, unwrap the variable as mentioned before
+
+/// A type that can represent either a `Wrapped` value or `nil`, the absence
+/// of a value.
+public enum Optional<Wrapped> : _Reflectable, NilLiteralConvertible {
+    case None
+    case Some(Wrapped)
+    /// Construct a `nil` instance.
+    public init()
+    /// Construct a non-`nil` instance that stores `some`.
+    public init(_ some: Wrapped)
+    /// If `self == nil`, returns `nil`.  Otherwise, returns `f(self!)`.
+    @warn_unused_result
+    public func map<U>(@noescape f: (Wrapped) throws -> U) rethrows -> U?
+    /// Returns `nil` if `self` is `nil`, `f(self!)` otherwise.
+    @warn_unused_result
+    public func flatMap<U>(@noescape f: (Wrapped) throws -> U?) rethrows -> U?
+    /// Create an instance initialized with `nil`.
+    public init(nilLiteral: ())
+}
+
 ```
 
 ### 2 Control Flow & Collections
@@ -151,3 +185,4 @@ switch idx {
 		print(", also is an integer number")
 }
 ```
+
