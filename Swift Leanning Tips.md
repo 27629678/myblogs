@@ -131,7 +131,21 @@ let assumedString: String! = "An implicitly unwrapped optional string."
 let implicitString: String = assumedString // no need for an exclamation mark
 ```
 
+#### 1.7 Selectors
+
+```
+let mySelector = #selector(MyViewController.tappedButton)
+```
+
 > **NOTE:**If an implicitly unwrapped optional is nil and you try to access its wrapped value, you’ll trigger a runtime error. The result is exactly the same as if you place an exclamation mark after a normal optional that does not contain a value.
+
+#### 1.7 AnyObject
+
+```
+var possibleDate: AnyObject = someDate()!
+let date = possibleDate as? NSDate	// DownCasting AnyObject, date may be a nil value if possibleDate is not NSDate Type
+let date1 = possibleDate as! NSDate	// Force DownCasting AnyObject, may trigger runtime error when possibleDate is not NSDate Type
+```
 
 ### 2 Control Flow & Collections
 
@@ -215,6 +229,77 @@ switch idx {
 		print(", also is an integer number")
 }
 ```
+
+### 3 Closures
+
+#### 3.1 objc -> swift
+
+```
+// Objective-C block
+void (^completionBlock)(NSData *, NSError *) = ^(NSData *data, NSError *error) {
+   // ...
+}
+
+// Swift Closure
+let completeBlock: (NSData, NSError)->void = { data, error in
+	// ...
+}
+```
+
+#### 3.2 Resolving Strong Reference Cycles for Closures
+
+```
+// Objective-C block
+__weak typeof(self) weakSelf = self;
+self.block = ^{
+   __strong typeof(self) strongSelf = weakSelf;
+   [strongSelf doSomething];
+};
+
+// Swift closure
+self.closure = { [unowned self] in	// define a Capture List [unowned self, weak delegate = self.delegate!]
+    self.doSomething()
+}
+```
+
+[more details](https://developer.apple.com/library/ios/documentation/Swift/Conceptual/Swift_Programming_Language/AutomaticReferenceCounting.html#//apple_ref/doc/uid/TP40014097-CH20-ID57)
+
+> **NOTE:** `__block` is default behavior for variables in Swift
+
+### 4 Configuring Swift Interfaces in Objective-C
+
+#### 4.1 @objc()
+
+```
+@objc(Color)
+enum Цвет: Int {
+    @objc(Red)
+    case Красный
+    
+    @objc(Black)
+    case Черный
+}
+ 
+@objc(Squirrel)
+class Белка: NSObject {
+    @objc(color)
+    var цвет: Цвет = .Красный
+    
+    @objc(initWithName:)
+    init (имя: String) {
+        // ...
+    }
+    @objc(hideNuts:inTree:)
+    func прячьОрехи(количество: Int, вДереве дерево: Дерево) {
+        // ...
+    }
+}
+```
+
+> **NOTE:**Conversely, Swift also provides the @nonobjc attribute, which makes a Swift declaration unavailable in Objective-C. You can use it to resolve circularity for bridging methods and to allow overloading of methods for classes imported by Objective-C. If an Objective-C method is overridden by a Swift method that cannot be represented in Objective-C, such as by specifying a parameter to be a variable, that method must be marked @nonobjc.
+
+
+
 ### x Error Handling
 
 available after Swift 2.0
