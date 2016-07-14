@@ -78,9 +78,9 @@ print(x)	// error, can not use uninitilized variable
 foo(statusCode)	// compiling error, value of not unwrapped; 
 // did you mean to use "!" or "?" ?
 
-foo(statusCode!) 
+foo(statusCode!) 	// Implicitly Unwrapped Optionals
 
-// unitary ! operator only apply on unitary ? operator decorated variable, unwrap the variable as mentioned before
+// unitary ! operator only apply on unitary ? operator decorated variable, force unwrap the variable as mentioned before
 
 /// A type that can represent either a `Wrapped` value or `nil`, the absence
 /// of a value.
@@ -102,6 +102,36 @@ public enum Optional<Wrapped> : _Reflectable, NilLiteralConvertible {
 }
 
 ```
+
+#### 1.5 Optional Binding
+
+You use optional binding to find out whether an optional contains a value, and if so, to make that value available as a temporary constant or variable. Optional binding can be used with if and while statements to check for a value inside an optional, and to extract that value into a constant or variable, as part of a single action.
+
+Write an optional binding for an if statement as follows:
+
+```
+if let constantName = someOptional {
+    statements
+}
+else {
+	// do something if optional value is nil
+}
+
+```
+
+#### 1.6 Implicitly Unwrapped Optionals
+
+You can think of an implicitly unwrapped optional as giving permission for the optional to be unwrapped automatically whenever it is used. Rather than placing an exclamation mark after the optional’s name each time you use it, you place an exclamation mark after the optional’s type when you declare it.
+
+```
+let possibleString: String? = "An optional string."
+let forcedString: String = possibleString! // requires an exclamation mark
+
+let assumedString: String! = "An implicitly unwrapped optional string."
+let implicitString: String = assumedString // no need for an exclamation mark
+```
+
+> **NOTE:**If an implicitly unwrapped optional is nil and you try to access its wrapped value, you’ll trigger a runtime error. The result is exactly the same as if you place an exclamation mark after a normal optional that does not contain a value.
 
 ### 2 Control Flow & Collections
 
@@ -185,4 +215,6 @@ switch idx {
 		print(", also is an integer number")
 }
 ```
+### x Error Handling
 
+available after Swift 2.0
