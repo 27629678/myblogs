@@ -299,6 +299,20 @@ class Белка: NSObject {
 > **NOTE:**Conversely, Swift also provides the @nonobjc attribute, which makes a Swift declaration unavailable in Objective-C. You can use it to resolve circularity for bridging methods and to allow overloading of methods for classes imported by Objective-C. If an Objective-C method is overridden by a Swift method that cannot be represented in Objective-C, such as by specifying a parameter to be a variable, that method must be marked @nonobjc.
 
 
+#### 4.2 Access Control
+
+`Swift`的访问控制是基于模块（module，或target）和源文件（*.swift)的，而不是基于类型和命名空间的。
+
+- public：当前模块，或者其它模块都可以访问，通常用于Framework；
+- private：只访问当前源文件内的内容，若当前源文件有多个类，可以访问；
+- internal：default access level，当前模块的其它源文件都可以访问；
+
+如果一个类（Class）的访问级别为`private`，则类的所有成员及方法都是private，此时成员无法修改访问级别；若一个类的访问级别为`internal`或者`public`，那么它的所有成员默认都是`internal`，此时可以单独修改成员的访问级别为`public`，即类成员的访问级别不可高于类的访问级别，子类的访问级别不高于父类的访问级别，但是在遵循三种访问级别作用范围的前提下子类可以将父类访问级别的成员重写成更高的访问级别；
+
+> **NOTE：**在Swift里，一个`module（or Target）`就是一个命名空间，与`C#「namespace」`、`Java「package」`不同，不需要显示的指定命名空间。这样，在同一个模块内，不需要显示的导入头文件就可以互相访问，大大简化了Swift编程。
+
+
+
 
 ### x Error Handling
 
