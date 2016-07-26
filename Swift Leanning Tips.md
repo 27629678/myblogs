@@ -309,9 +309,10 @@ class Белка: NSObject {
 
 `Swift`的访问控制是基于模块（module，或target）和源文件（*.swift)的，而不是基于类型和命名空间的。
 
-- public：当前模块，或者其它模块都可以访问，通常用于Framework；
-- private：只访问当前源文件内的内容，若当前源文件有多个类，可以访问；
-- internal：default access level，当前模块的其它源文件都可以访问；
+- public: 当前模块，或者其它模块都可以访问，通常用于Framework；
+- private: 只访问当前源文件内的内容，若当前源文件有多个类，可以访问；
+- internal: default access level，当前模块的其它源文件都可以访问；
+- @testable: unit test
 
 如果一个类（Class）的访问级别为`private`，则类的所有成员及方法都是private，此时成员无法修改访问级别；若一个类的访问级别为`internal`或者`public`，那么它的所有成员默认都是`internal`，此时可以单独修改成员的访问级别为`public`，即类成员的访问级别不可高于类的访问级别，子类的访问级别不高于父类的访问级别，但是在遵循三种访问级别作用范围的前提下子类可以将父类访问级别的成员重写成更高的访问级别；
 
@@ -320,6 +321,139 @@ class Белка: NSObject {
 
 
 
-### x Error Handling
+### 5 Error Handling
 
-available after Swift 2.0
+@available(Swift 2.0, *)
+
+#### 5.1 Representation
+
+Any type that declares conformance to `ErrorProtocol` can be used to represent an error in Swift's **Error Handling System**
+
+Using `enumerations` as Errors
+
+```
+enum IntParsingError: ErrorProtocol {
+	case overflow
+	case invalidInput(String)
+}
+```
+
+#### 5.2 More Data in Errors
+
+```
+struc XMLParsingError: ErrorProtocol {
+	enum ErrorKind {
+		case invalidCharacter
+		case mismatchedTag
+		case internalError
+	}
+	
+	let line: Int
+	let column: Int
+	let kind: ErrorKind
+}
+```
+
+#### 5.3 Handling Errors
+
+Using `do-catch` statement in the `Throwing Function`s
+
+```
+// throwing function
+extension Int {
+	
+	init(validting input: String) throws {
+		// ...
+		if !_isValid(s) {
+			throw IntParsingError.invalidInput(s)
+		}
+		// ...
+	}
+	
+}
+
+// calling the fucntion using 'do' statement
+
+do {
+	let price = try Int(validating:"$100")
+}
+catch IntParsingError.invalidInput(let invalid) {
+	print("Invalid character:'\(invalid)'")
+}
+catch IntParsingError.overflow {
+	print("Overflow error")
+}
+catch {
+	print("Other error")
+}
+
+// Prints "Invalid character: '$'"
+```
+
+Using pattern matching to conditionally catch errors.
+
+```
+func parse(_ source: String) throws -> XMLDoc {
+    // ...
+    throw XMLParsingError(line: 19, column: 5, kind: .mismatchedTag)
+    // ...
+}
+
+do {
+    let xmlDoc = try parse(myXMLData)
+} 
+// catch any `XMLParsingError` errors thrown by the `parse(_:)` function
+catch let e as XMLParsingError {
+    print("Parsing error: \(e.kind) [\(e.line):\(e.column)]")
+}
+catch {
+    print("Other error: \(error)")
+}
+
+// Prints "Parsing error: mismatchedTag [19:5]"
+```
+
+#### 5.4 Converting Errors to Optional Values「try?」
+
+In the following code x and y have the same value and behavior:
+
+```
+func someThrowingFunction() throws -> Int {
+    // ...
+}
+ 
+let x = try? someThrowingFunction()
+ 
+let y: Int?
+do {
+    y = try someThrowingFunction()
+} catch {
+    y = nil
+}
+```
+
+#### 5.5 Disabling Error Propagation「try!」
+
+```
+// if loadImage() function return error will raise runtime error
+let photo = try! loadImage("./Resources/John Appleseed.jpg")
+```
+
+#### 5.6 Specifying Cleanup Actions「defer」
+
+You use a `defer` statement to execute a set of statements just before code execution leaves the current block of code, whether it leaves because an error was thrown or because of a statement such as return or break. 
+
+```
+func processFile(filename: String) throws {
+    if exists(filename) {
+        let file = open(filename)
+        defer {
+            close(file)
+        }
+        while let line = try file.readline() {
+            // Work with the file.
+        }
+        // close(file) is called here, at the end of the scope.
+    }
+}
+```
