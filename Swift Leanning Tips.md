@@ -318,7 +318,21 @@ class Белка: NSObject {
 
 > **NOTE：**在Swift里，一个`module（or Target）`就是一个命名空间，与`C#「namespace」`、`Java「package」`不同，不需要显示的指定命名空间。这样，在同一个模块内，不需要显示的导入头文件就可以互相访问，大大简化了Swift编程。
 
+#### 4.3 Singleton Interface
 
+```
+class Singleton {
+    static let sharedInstance = Singleton()
+}
+
+class Singleton {
+    static let sharedInstance: Singleton = {
+        let instance = Singleton()
+        // setup code
+        return instance
+    }()
+}
+```
 
 
 ### 5 Error Handling
@@ -459,3 +473,5 @@ func processFile(filename: String) throws {
 ```
 
 > **NOTE:**注意与`deinit`的语义不同
+
+### 6 Generics
