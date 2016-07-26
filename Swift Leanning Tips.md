@@ -457,3 +457,5 @@ func processFile(filename: String) throws {
     }
 }
 ```
+
+> **NOTE:**注意与`deinit`的语义不同
