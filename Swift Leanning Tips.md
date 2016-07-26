@@ -139,12 +139,18 @@ let mySelector = #selector(MyViewController.tappedButton)
 
 > **NOTE:**If an implicitly unwrapped optional is nil and you try to access its wrapped value, you’ll trigger a runtime error. The result is exactly the same as if you place an exclamation mark after a normal optional that does not contain a value.
 
-#### 1.7 AnyObject
+#### 1.8 AnyObject
 
 ```
 var possibleDate: AnyObject = someDate()!
 let date = possibleDate as? NSDate	// DownCasting AnyObject, date may be a nil value if possibleDate is not NSDate Type
 let date1 = possibleDate as! NSDate	// Force DownCasting AnyObject, may trigger runtime error when possibleDate is not NSDate Type
+```
+
+#### 1.9 DoubleQuestionMark
+
+```
+var c = a ?? b	// c = a != nil ? a! : b
 ```
 
 ### 2 Control Flow & Collections
