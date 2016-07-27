@@ -1,4 +1,6 @@
-### 0x01 User Notifications Framework
+### 0x01 User Notifications
+
+与`UIKit`库中的`UIUserNotification`相似，iOS X引入了全新的UserNotification库——「UserNotifications.framework」和「UserNotificationsUI.framework」，提供了更加丰富的通知系统，如`ServiceExtension`和`ContentExtension`等。
 
 #### 1.1 iOS
 
@@ -25,17 +27,25 @@ Example:
 
 ##### 2.1.1 User Authorization
 
+向设备注册通知类型，类型如下：
+
 - Banners
 - Sound alerts
 - Badging
 
-> Needed for local and remote notifications
+与iOX8.0提供的接口类似，接口更加简洁短小，语义更加明确；
 
 ```
 // listing 1
 // Set notification configration
 UNUserNotificationCenter.current().requestAuthorization([.sound, .alert, .badge]) { (success, error) in ... }
+
+// 若想获取「remotepush」的token，添加如下代码
+// @available(iOS 8.0, *)
+UIApplication.shared().registerForRemoteNotifications()
 ```
+
+> **NOTE:**若不准备采用UserNotifications.framework提供的新特性，通知模块的代码不需要为iOS X做额外的适配即可正常工作。
 
 ##### 2.1.2 Notification settings
 
@@ -73,6 +83,8 @@ content.subtitle = "Session 707"
 content.body = "Woah! These new notifications look amazing! Don't you agree?"
 content.badge = 1
 ```
+
+> **NOTE：**ServiceExtension作为通知加解密和添加通知附件等特性被引入是用于解决「RemoteNotification」存在的短板问题，与「LocalNotification」不同，本地通知由iOS系统直接调度无需网络的参与，附件可直接指定，更不需要对通知内容做解密；所以，本地通知的present不会唤起ServiceExtension再正常不过了。
 
 Remote Notification
 
@@ -118,6 +130,12 @@ func userNotificationCenter(_ center : UNUserNotificationCenter, willPresent not
 }
 ```
 
+> **NOTE：**以上两个Delegate方法替换了`application:didReceiveLocalNotification：`、
+> `application:didReceiveRemoteNotification：`、
+> `application:handleActionWithIdentifier：forLocalNotification：completionHandler：`、
+> `application:handleActionWithIdentifier：forLocalNotification：completionHandler：`
+> 四个方法，通知的处理简化为两个方法不再区分本地和远程，使接口语义更加清晰。
+
 ### 4 Notification Management
 
 **Overview**
@@ -129,6 +147,8 @@ func userNotificationCenter(_ center : UNUserNotificationCenter, willPresent not
 
 - Remove Notifications
 - Update and Promote Notifications
+
+> **NOTE：**该部分的功能基本与「UIKit」提供的功能一致，只是在「ServiceExtension」中添加了对「RemoteNotification」的编辑支持，下面会有详细的介绍；
 
 #### 4.1 Request Identifier
 
@@ -178,6 +198,8 @@ let category = UNNotificationCategory(identifier:"message", actions:[action], mi
 UNUserNotificationCenter.current().setNotificationCategories([category])
 
 ```
+
+> **NOTE：**iOS X引入了action的**options**，用于标识该action的运行权限，主要有auth（需要解锁设备后运行）、destrutive（标识该action具有破坏性）和foreground（唤醒App并在前台运行），可组合使用，如：[.auth, .destructive, .foreground]
 
 #### 5.3 Presentation
 
@@ -306,3 +328,7 @@ Example Payload
     }
 
 ```
+
+> **NOTE:**不清楚是不是WWDC的时间限制，该视频仅是一个介绍性的快速展示了一下，并没有深入的讲解，比如「ServiceExtension」的最大运行时间具体是多长，或者这个时间与不同的设备和使用场景不同都没有提及，「ContentExtension」也仅给出图示。但是看完整个视频后，「ServiceExtension」提供的功能远不止通知加解密、更改和替换通知的可显示的内容；比如，联想一下我们的邮箱大师应用，通知显示本地通讯录的发件人名称，显示发件人邮件地址的头像，远程推送到达率统计等等都可以完美解决，这在以前都是无从下手的需求；
+> 
+> 更详尽的内容关注**wwdc 2016 session 708 Advanced Notifications**
