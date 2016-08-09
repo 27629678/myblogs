@@ -475,3 +475,36 @@ func processFile(filename: String) throws {
 > **NOTE:**注意与`deinit`的语义不同
 
 ### 6 Generics
+
+
+### 7 Cocoa
+
+#### 7.1 @UIApplicationMain修饰符
+
+Main函数的入口，编译时根据模板生成mail.swift文件
+
+```
+import UIKit
+
+@UIApplicationMain	
+// no this modifier will raise compiling error: 
+// implicit entry/start for main executable
+class AppDelegate: UIResponder, UIApplicationDelegate {
+
+    var window: UIWindow?
+
+
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+        // Override point for customization after application launch.
+        return true
+    }
+
+}
+```
+
+删除修饰符后可手动创建mail.swfit文件即可正常编译通过，代码如下所示：
+
+```
+UIApplicationMain(Process.argc, Process.unsafeArgv, nil, NSStringFromClass(AppDelegate))
+```
+
