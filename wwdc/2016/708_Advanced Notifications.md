@@ -239,7 +239,11 @@ class NENotificationViewController:UIViewController, UNNotificationContentExtens
 
 ```
 
-#### 4 References
+#### 4 Push Notification Update
+
+远程推送可以进行通知的更新，在使用 Provider API 向 APNs 提交请求时，在 HTTP/2 的 header 中 `apns-collapse-id`key 的内容将被作为该推送的标识符进行使用。多次推送同一标识符的通知即可进行更新。
+
+#### 5 References
 
 - location notfication available after iOS8 (2014\_713\_What's new in notifications)
 - text input action on notification available after iOS9 (2015_720_What's new in notifications)
