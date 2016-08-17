@@ -309,8 +309,10 @@ class Белка: NSObject {
 
 `Swift`的访问控制是基于模块（module，或target）和源文件（*.swift)的，而不是基于类型和命名空间的。
 
+- open: 比**public**级别更高, 被**open**修饰的类，可以在类定义的module之外进行子类化（即生成该类的子类）；被**open**修饰的方法，可以在方法定义的module之外进行重写（override）；「Xcode 8 beta6 引入」
 - public: 当前模块，或者其它模块都可以访问，通常用于Framework；
-- private: 只访问当前源文件内的内容，若当前源文件有多个类，可以访问；
+- private: 作用域为一个{}内；「Xcode 8 beta6 更新」
+- fileprivate: 只访问当前源文件内的内容，若当前源文件有多个类，可以访问；「Xcode 8 beta6 引入」
 - internal: default access level，当前模块的其它源文件都可以访问；
 - @testable: unit test
 
