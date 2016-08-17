@@ -236,6 +236,22 @@ switch idx {
 }
 ```
 
+#### 2.5 map|filter|reduce
+
+```
+var array = ["a", "b", "c"]
+let list = array.map { (value) -> String in
+    value + value
+}
+let str1 = array.map { $0 + $0 }
+    .filter({ (value) -> Bool in
+        return value == "aa"
+    })
+    .reduce("") { $0 + $1 }
+print(str1)
+
+```
+
 ### 3 Closures
 
 #### 3.1 objc -> swift
