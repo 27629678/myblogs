@@ -314,7 +314,7 @@ class Белка: NSObject {
 - private: 作用域为一个{}内；「Xcode 8 beta6 更新」
 - fileprivate: 只访问当前源文件内的内容，若当前源文件有多个类，可以访问；「Xcode 8 beta6 引入」
 - internal: default access level，当前模块的其它源文件都可以访问；
-- @testable: unit test
+- @testable: unit test, 可以子类化**public**修饰的类，可以重写**public**修饰的方法；
 
 如果一个类（Class）的访问级别为`private`，则类的所有成员及方法都是private，此时成员无法修改访问级别；若一个类的访问级别为`internal`或者`public`，那么它的所有成员默认都是`internal`，此时可以单独修改成员的访问级别为`public`，即类成员的访问级别不可高于类的访问级别，子类的访问级别不高于父类的访问级别，但是在遵循三种访问级别作用范围的前提下子类可以将父类访问级别的成员重写成更高的访问级别；
 
