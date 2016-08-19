@@ -153,6 +153,40 @@ let date1 = possibleDate as! NSDate	// Force DownCasting AnyObject, may trigger 
 var c = a ?? b	// c = a != nil ? a! : b
 ```
 
+#### 1.10 Optional Chaining
+
+```
+var str: String?
+str = "Hello, playground"
+print(str?.characters.count)
+
+// Optional(17) 
+
+// using optinal binding
+if let count = str?.characters.count {
+    print(count)
+}
+
+// 17
+```
+
+> **NOTE:** The value, is optional, which is returned from optional chaining expression
+
+#### 1.11 ?? operator and @autoclosure
+
+```
+var str: String?
+let str1 = str ?? "Hello, playground"
+let str2 = str != nil ? str : "Hello, playground"
+```
+
+implementations
+
+```
+public func ??<T>(optional: T?, defaultValue: @autoclosure () throws -> T) rethrows -> T
+public func ??<T>(optional: T?, defaultValue: @autoclosure () throws -> T?) rethrows -> T?
+```
+
 ### 2 Control Flow & Collections
 
 #### 2.1 Where
