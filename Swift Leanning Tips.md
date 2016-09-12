@@ -560,3 +560,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 UIApplicationMain(Process.argc, Process.unsafeArgv, nil, NSStringFromClass(AppDelegate))
 ```
 
+### 8 Objective-C and Swift in same project
+
+基本操作就不讲了，这里讲一个比较Trik的事情，「Module-Swift.h」引入时引发的编译不确定性因素。
+
+比如，存在「ModuleA-Swift.h」和「ModuleB-Swift.h」，若一个Objective-C的源文件被两个Module访问，但是又存在编译顺序的问题，就会出现编译失败的可能。
