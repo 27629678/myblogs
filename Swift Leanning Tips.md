@@ -187,6 +187,16 @@ public func ??<T>(optional: T?, defaultValue: @autoclosure () throws -> T) rethr
 public func ??<T>(optional: T?, defaultValue: @autoclosure () throws -> T?) rethrows -> T?
 ```
 
+#### 1.12 @escaping and @nonescaping
+
+If a closure is passed as an argument to a function and it is invoked after the function returns, the closure is escaping.
+
+#### 1.12.1 Benefits
+
+There are several benefits to make closures non-escaping by default. The most obvious benefits are performance and the ability for the compiler to optimize your code. If the compiler knows that a closure is non-escaping, it can take care of a many of the nitty-gritty details of memory management.
+
+This also means that you can use the self keyword without issues in non-escaping closures because the closure is invoked before the function returns. There is no need to use a weak reference to self in the closure. This is a nice benefit you get for free.
+
 ### 2 Control Flow & Collections
 
 #### 2.1 Where
