@@ -121,6 +121,12 @@ else {
 
 #### 1.6 Implicitly Unwrapped Optionals
 
+```
+var obj: MyClass!
+```
+
+> **NOTE：**隐式解包的Optional和普通的Optional变量没有任何区别，只是在访问变量时编译器会自动在变量后插入「!」符号进行解包；但是，若obj为nil时，访问会导致crash；
+
 You can think of an implicitly unwrapped optional as giving permission for the optional to be unwrapped automatically whenever it is used. Rather than placing an exclamation mark after the optional’s name each time you use it, you place an exclamation mark after the optional’s type when you declare it.
 
 ```
@@ -196,6 +202,30 @@ If a closure is passed as an argument to a function and it is invoked after the 
 There are several benefits to make closures non-escaping by default. The most obvious benefits are performance and the ability for the compiler to optimize your code. If the compiler knows that a closure is non-escaping, it can take care of a many of the nitty-gritty details of memory management.
 
 This also means that you can use the self keyword without issues in non-escaping closures because the closure is invoked before the function returns. There is no need to use a weak reference to self in the closure. This is a nice benefit you get for free.
+
+#### 1.13 as as! as?的区别
+
+##### 1.13.1 upcasting
+
+```
+class Animal {}
+class Cat: Animal {}
+let cat = Cat()
+let animal = cat as Animal
+```
+
+##### 1.13.2 downcasting
+
+```
+class Animal {}
+class Cat: Animal {}
+let animal :Animal  = Cat()
+let cat = animal as! Cat
+```
+
+区别就是使用as(?|!)时，由于是向下转型有可能会失败，使用as！时会引发运行时错误，使用as？时会赋值为nil；
+
+[AppleDoc文档](https://developer.apple.com/swift/blog/?id=23)
 
 ### 2 Control Flow & Collections
 
