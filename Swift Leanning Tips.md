@@ -227,6 +227,31 @@ let cat = animal as! Cat
 
 [AppleDoc文档](https://developer.apple.com/swift/blog/?id=23)
 
+#### 1.14 static | class | final
+
+```
+open class MyClass: NSObject {
+
+	// cannot override in subclass
+	static func staticMethod() {
+		// do some thing
+	}
+	
+	// can override in subclass
+	class func classMethod() {
+		// do some thing
+	}
+	
+	// cannot override in subclass
+	final [class] func finalMethod() {
+		// do some thing
+	}
+}
+
+```
+
+> **NOTE:**从功能上讲，static与final类似，都不能在子类中重写；值得注意的是，若通过JSPatch进行热更新时，static和final修饰的方法不可被覆盖，其中final是因为不可与dynamic同时修饰同一个方法；而static类似C语言的静态方法，无法通过OC的运行时进行替换；
+
 ### 2 Control Flow & Collections
 
 #### 2.1 Where
