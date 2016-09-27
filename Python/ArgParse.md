@@ -373,6 +373,6 @@ parser.parse_args('--foo XXX'.split())
 Namespace(bar='XXX')
 ```
 
-### 4 parse_args()方法
+### 0x04 parse_args()方法
 
 该方法的功能，就是从`sys.argv`中解析参数，并生成一个新的`Namespace`对象，包含了参数相关的属性及值；
