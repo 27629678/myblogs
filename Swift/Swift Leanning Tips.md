@@ -451,6 +451,35 @@ class Singleton {
 }
 ```
 
+#### 4.4 Automatic Reference Counting
+
+##### 4.4.1 weak and unowned keyword
+
+以上两个`weak`和`unowned`关键字都可以用来解决`Strong Reference Circle`，即`循环引用`；
+
+```
+class Person {
+	var name: String
+	var age: Int
+	weak var company: Company
+}
+
+class Company {
+	var name: String
+	var address: String
+	unowned var boss: Person
+}
+```
+
+##### 4.4.2 capture list in closure
+
+```
+var my_closure = { [weak self, unowned delegate = self.delegate!] \(name: String, age: Int) in 
+	// do something
+}
+```
+
+[ARC Swift 文档](https://developer.apple.com/library/content/documentation/Swift/Conceptual/Swift_Programming_Language/AutomaticReferenceCounting.html)
 
 ### 5 Error Handling
 
