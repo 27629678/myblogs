@@ -277,6 +277,26 @@ func foo2(_ error: inout NSError?)
 }
 ```
 
+#### 1.16 Any 与 AnyObject
+
+##### 1.16.1 Any
+
+`Swift3.0`引入的概念，用于代表**struct**，**class**及**func**等的实例；
+
+##### 1.16.2 AnyObject
+
+在`Swift3.0`之后，仅用于代表`class`的实例；在此之前，与`Any`一样，但是对**struct**和**func**做了隐式的桥接转换为Objective-C的对象，但是其它平台，如Linux，没有Objectvie-C的运行时库，所以，在`Swift3.0`之后又引入了`Any`用于澄清概念；
+
+#### 1.17 @discardableResult修饰符
+
+用于修饰`func`方法，表示该方法的返回值可以不使用，便于减少不必要的警告；
+
+对于没有使用该修饰符的方法，可以使用如下方法消除警告：
+
+```
+_ = foo()
+```
+
 ### 2 Control Flow & Collections
 
 #### 2.1 Where
