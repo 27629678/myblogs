@@ -396,6 +396,46 @@ print(str1)
 
 ```
 
+#### 2.6 map|flatmap
+
+```
+// collection
+var array: [String] = ["1", "2", "three", "4", "//5//"]
+
+let list0: [Int?] = array.map { (item) -> Int? in
+    return Int(item)
+}
+print(list0)
+
+print(array.map { Int($0) })
+
+print(array.flatMap { Int($0) })
+
+print(array.flatMap ({ (item) -> Int? in
+    return Int(item)
+}))
+
+let list1: [Int?] = array.flatMap { Int($0) }
+print(list1)
+
+let list2: [Int?] = array.flatMap({ (item) -> Int? in
+    return Int(item)
+})
+print(list2)
+
+// optional
+
+func myPrint(_ item: String)
+{
+    print("T:\(type(of:item)), V:\(item)")
+}
+
+let a: String? = nil
+
+a.map(myPrint)
+a.flatMap(myPrint)
+```
+
 ### 3 Closures
 
 #### 3.1 objc -> swift
