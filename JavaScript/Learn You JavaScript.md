@@ -42,6 +42,36 @@ var global = this;	// 定义一个引用全局对象的全局变量
 
 >NOTE:在客户端JavaScript中，在其表示的浏览器窗口中的所有JavaScript代码中，Window对象充当了全局对象。
 
+#### 3.1 变量声明提升（hoisting）
+
+```
+console.log(variable);		// undefined, default
+var variable = 1;
+console.log(variable);		// 1
+```
+
+> **NOTE:**与`函数提升`不同
+
+```
+// 函数声明
+foo();			// bar
+
+function foo() {
+	console.log('bar');
+}
+
+// 函数表达式，不可以提升
+foo1();		// TypeError: foo1 is not a function
+// 此时的foo1是一个变量（声明提升，类型为undefined），
+// 因此，foo1()不是一个函数
+
+var foo1 = function() {
+	console.log('bar1');
+}
+```
+
+> **NOTE:**表达式定义的函数，成为`匿名函数`,匿名函数没有函数提升;
+
 ###4、相等和不等运算符
 
 `=`：赋值
