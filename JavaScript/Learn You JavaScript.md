@@ -314,3 +314,77 @@ navigator对象：
 
 - window.open():四个参数略；
 - window.close():关闭一个窗口；
+
+### 15. Class
+
+#### 15.1 Non-Hoisted
+
+```
+var obj = new MyClass();	// ReferenceError
+
+class MyClass{}
+```
+
+#### 15.2 constructor, static, prototype methods
+
+```
+class Foo {
+	constructor (prop) {
+		this.prop = prop;
+	}
+	
+	static staticMethod () {
+		return 'static method';
+	}
+	
+	prototypeMethod () {
+		return 'prototype method';
+	}
+	
+	['computed' + 'method']() {
+		return 'computed method';
+	}
+}
+```
+
+### 16. Modules
+
+ES6 is the first time that JavaScript has built-in modules.
+
+#### 16.1 Multiple named exports
+
+```
+//------ lib.js ------
+export const sqrt = Math.sqrt;
+export function square(x) {
+    return x * x;
+}
+export function diag(x, y) {
+    return sqrt(square(x) + square(y));
+}
+
+//------ main.js ------
+import { square, diag } from 'lib';
+console.log(square(11)); // 121
+console.log(diag(4, 3)); // 5
+```
+
+#### 16.2 Single default export
+
+```
+//------ myFunc.js ------
+export default function () { ··· } // no semicolon!
+
+//------ main1.js ------
+import myFunc from 'myFunc';
+myFunc();
+```
+
+```
+//------ MyClass.js ------
+export default class { ··· } // no semicolon!
+
+//------ main2.js ------
+import MyClass from 'MyClass';
+const inst = new MyClass();
+```
