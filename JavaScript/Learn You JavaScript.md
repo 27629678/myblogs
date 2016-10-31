@@ -317,6 +317,57 @@ navigator对象：
 
 ### 15. Class
 
+`JavaScript`是基于`原型(prototype)`的程序设计语言，与面向对象的编程的风格不同，但是它也是可以进行代码重用的，比如：继承、封装和多态等；
+
+在**ES6**之前，**类(Class)**的声明如代码所示：
+
+```
+function Person(name) {
+	this.name = name;
+}
+
+// add instance method
+Person.prototype.sayHello = function () {
+	console.log('Hello, I\'m ' + this.name + '.');
+}
+
+var p1 = new Person('xiaohong');
+p1.sayHello();	// output: Hello, I'm xiaohong.
+
+// 这里有个坑
+var sayHello = p1.sayHello;
+
+sayHello();		// output: Hello, I'm undefined.
+
+sayHello.call(p1);	// output: Hello, I'm xiaohong.
+```
+
+在**ES6**之前，**类(Class)**的继承如代码所示：
+
+```
+// Student: Person
+function Student(name, number) {
+	Person.call(this, name);
+	this.number = number;
+}
+
+// 到这里还没有完，需要改造原型
+// 1. 基于Person的原型
+Student.prototype = Object.create(Person.prototype);
+
+// 2. 修改其构造函数，指向Student
+Student.prototype.constructor = Student;
+
+// 3. 替换sayHello方法
+Student.prototype.sayHello = function(){
+  console.log("Hello, I'm " + this.firstName + ". My number is: " + this.number + ".");
+};
+
+var s1 = new Student('hzyuxiaohua', 2204);
+
+s1.sayHello()		// output: Hello, I'm hzyuxiaohua. My number is: 2204.
+```
+
 #### 15.1 Non-Hoisted
 
 ```
