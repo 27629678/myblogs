@@ -378,6 +378,8 @@ class MyClass{}
 
 #### 15.2 constructor, static, prototype methods
 
+ES6 新增了class 关键字，但只是语法糖，JavaScript 仍旧是基于原型，如下代码所示：
+
 ```
 class Foo {
 	constructor (prop) {
