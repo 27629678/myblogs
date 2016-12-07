@@ -92,7 +92,7 @@ var foo1 = function() {
 
 ###5、对象
 
-除了`字符串`、`数字`、`true`、`false`、`null`和`undefined`之外，JavaScript中的值都是**对象**。`属性`包括名字和值，属性名可以是包括空字符串在内的任意字符串，但**对象**中不能存在两个同名的属性，值可以是任意JavaScript值。
+除了`字符串`、`数字`、`boolean`、`null`和`undefined`之外, Symbols(ES6引入的新类型)，JavaScript中的值都是**对象**。`属性`包括名字和值，属性名可以是包括空字符串在内的任意字符串，但**对象**中不能存在两个同名的属性，值可以是任意JavaScript值。
 
 ####-5.1 原型
 
