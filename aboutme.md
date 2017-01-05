@@ -45,7 +45,8 @@
 
 - 三星上网本（win10)
 - Apple Magic Trackpad(II代)
-	
+- iPad Mini(32G)
+
 ****
 2015年入手的玩具：
 
