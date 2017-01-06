@@ -63,6 +63,8 @@ H5页面代码如下：
 </body>
 ```
 
+> **NOTE:** `form`标签的`content-type`类型使用`submit`时默认为`www-url-encoded`, 上传文件时记得要使用`multipart/form-data`类型；
+
 #### 1.2.1 使用multer实现文件上传
 
 ```
