@@ -739,7 +739,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 UIApplicationMain(Process.argc, Process.unsafeArgv, nil, NSStringFromClass(AppDelegate))
 ```
 
-### 8 Objective-C and Swift in same project
+### 8 Type Properties
+
+Aka `class` properties in Objective-C or other compiling languages;
+
+```
+class MyType {
+	static let sharedInstance = MyType()
+	static var urserInfo = "hello, world."
+}
+```
+
+> **NOTE:**Unlike stored instance properties, you must always give stored type properties a default value. This is because the type itself does not have an initializer that can assign a value to a stored type property at initialization time.
+
+> Stored type properties are lazily initialized on their first access. They are guaranteed to be initialized only once(线程安全的，所以可以用来生成单例的实例), even when accessed by multiple threads simultaneously, and they do not need to be marked with the lazy modifier.
+
+
+### 9 Objective-C and Swift in same project
 
 基本操作就不讲了，这里讲一个比较Trik的事情，「Module-Swift.h」引入时引发的编译不确定性因素。
 
