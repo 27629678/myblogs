@@ -710,9 +710,9 @@ func processFile(filename: String) throws {
 
 ### 7 Cocoa
 
-#### 7.1 @UIApplicationMain修饰符
+#### 7.1 @UIApplicationMain修饰符(标签)
 
-Main函数的入口，编译时根据模板生成mail.swift文件
+Main函数的入口，编译时根据模板生成main.swift文件
 
 ```
 import UIKit
@@ -733,11 +733,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 }
 ```
 
-删除修饰符后可手动创建mail.swfit文件即可正常编译通过，代码如下所示：
+删除修饰符后可手动创建main.swfit文件即可正常编译通过，代码如下所示：
 
 ```
 UIApplicationMain(Process.argc, Process.unsafeArgv, nil, NSStringFromClass(AppDelegate))
 ```
+
+> **NOTE：**注意与Python等语言的**装饰器**功能区分开，在Swift中，仅作为编译时使用的标签，用于替换模板中的内容生成main.swift文件，并不能增强已有某方法的功能；
 
 ### 8 Type Properties
 
