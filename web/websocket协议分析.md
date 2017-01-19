@@ -38,4 +38,39 @@ scheme://host[:port]/resource-name/secure-flag
 
 ```
 
+### 2 Frame
+
+```
+    0                   1                   2                   3
+      0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+     +-+-+-+-+-------+-+-------------+-------------------------------+
+     |F|R|R|R| opcode|M| Payload len |    Extended payload length    |
+     |I|S|S|S|  (4)  |A|     (7)     |             (16/64)           |
+     |N|V|V|V|       |S|             |   (if payload len==126/127)   |
+     | |1|2|3|       |K|             |                               |
+     +-+-+-+-+-------+-+-------------+ - - - - - - - - - - - - - - - +
+     |     Extended payload length continued, if payload len == 127  |
+     + - - - - - - - - - - - - - - - +-------------------------------+
+     |                               |Masking-key, if MASK set to 1  |
+     +-------------------------------+-------------------------------+
+     | Masking-key (continued)       |          Payload Data         |
+     +-------------------------------- - - - - - - - - - - - - - - - +
+     :                     Payload Data continued ...                :
+     + - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - +
+     |                     Payload Data continued ...                |
+     +---------------------------------------------------------------+
+```
+
+到目前为止，websocket的opcode包括控制帧和非控制帧，其中，控制帧分别：
+
+- 关闭帧，收到该数据帧后进行协商关闭websocket连接；
+- Ping帧，一般由服务端发向客户端，用于验证客户端是否在线；
+- Pong帧，一般由客户端收到服务端的Ping帧后发向服务商的响应帧，告知服务端该客户端正常在线；
+
+> **NOTE：**Ping帧和Pong帧的发送方向待验证；
+
+#### 2.1 websocket常用错误码
+
+![status code](./resources/websocket_statuscode.png)
+
 [RFC6455链接](https://tools.ietf.org/html/rfc6455)
