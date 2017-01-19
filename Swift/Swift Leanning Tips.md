@@ -19,7 +19,7 @@ let x = 0
 
 var y = x
 
-x = 1	// error, can not assign a new value to constant 
+x = 1	// error, can not assign a new value to constant
 
 y  = 1 // ok
 
@@ -75,7 +75,7 @@ print(x)	// error, can not use uninitilized variable
 
 // the potential value for x is Int Type value, MUST NOT assign nil to x
 
-foo(statusCode)	// compiling error, value of not unwrapped; 
+foo(statusCode)	// compiling error, value of not unwrapped;
 // did you mean to use "!" or "?" ?
 
 foo(statusCode!) 	// Implicitly Unwrapped Optionals
@@ -166,7 +166,7 @@ var str: String?
 str = "Hello, playground"
 print(str?.characters.count)
 
-// Optional(17) 
+// Optional(17)
 
 // using optinal binding
 if let count = str?.characters.count {
@@ -236,12 +236,12 @@ open class MyClass: NSObject {
 	static func staticMethod() {
 		// do some thing
 	}
-	
+
 	// can override in subclass
 	class func classMethod() {
 		// do some thing
 	}
-	
+
 	// cannot override in subclass
 	final [class] func finalMethod() {
 		// do some thing
@@ -264,7 +264,7 @@ func foo(_ error: NSErrorPointer)
 func foo1 (_ error: UnsafeMutablePointer<NSError?>?)
 {
     let myError: NSError? = NSError(domain: "playground", code: 400, userInfo: nil)
-    
+
     error?.pointee = myError
 }
 
@@ -272,7 +272,7 @@ func foo1 (_ error: UnsafeMutablePointer<NSError?>?)
 func foo2(_ error: inout NSError?)
 {
     let myError: NSError? = NSError(domain: "playground", code: 400, userInfo: nil)
-    
+
     error = myError
 }
 ```
@@ -347,6 +347,13 @@ for idx in 1..<5 {
 }
 
 // ?
+
+for idx in 1...10 where idx > 5 {
+	print(idx)
+}
+
+// ?
+
 ```
 
 > **NOTE:**Use the `for-in` loop to iterate over a sequence, such as ranges of numbers, item in an array, or characters in a string.
@@ -372,8 +379,8 @@ switch idx {
 		}
 		else {
 			print("\(idx) is less than, or equal to 4")
-		}	
-		
+		}
+
 		fallthrough
 	default:
 		print(", also is an integer number")
@@ -481,16 +488,16 @@ self.closure = { [unowned self] in	// define a Capture List [unowned self, weak 
 enum Цвет: Int {
     @objc(Red)
     case Красный
-    
+
     @objc(Black)
     case Черный
 }
- 
+
 @objc(Squirrel)
 class Белка: NSObject {
     @objc(color)
     var цвет: Цвет = .Красный
-    
+
     @objc(initWithName:)
     init (имя: String) {
         // ...
@@ -559,7 +566,7 @@ class Company {
 ##### 4.4.2 capture list in closure
 
 ```
-var my_closure = { [weak self, unowned delegate = self.delegate!] \(name: String, age: Int) in 
+var my_closure = { [weak self, unowned delegate = self.delegate!] \(name: String, age: Int) in
 	// do something
 }
 ```
@@ -592,7 +599,7 @@ struc XMLParsingError: ErrorProtocol {
 		case mismatchedTag
 		case internalError
 	}
-	
+
 	let line: Int
 	let column: Int
 	let kind: ErrorKind
@@ -606,7 +613,7 @@ Using `do-catch` statement in the `Throwing Function`s
 ```
 // throwing function
 extension Int {
-	
+
 	init(validting input: String) throws {
 		// ...
 		if !_isValid(s) {
@@ -614,7 +621,7 @@ extension Int {
 		}
 		// ...
 	}
-	
+
 }
 
 // calling the fucntion using 'do' statement
@@ -646,7 +653,7 @@ func parse(_ source: String) throws -> XMLDoc {
 
 do {
     let xmlDoc = try parse(myXMLData)
-} 
+}
 // catch any `XMLParsingError` errors thrown by the `parse(_:)` function
 catch let e as XMLParsingError {
     print("Parsing error: \(e.kind) [\(e.line):\(e.column)]")
@@ -666,9 +673,9 @@ In the following code x and y have the same value and behavior:
 func someThrowingFunction() throws -> Int {
     // ...
 }
- 
+
 let x = try? someThrowingFunction()
- 
+
 let y: Int?
 do {
     y = try someThrowingFunction()
@@ -686,7 +693,7 @@ let photo = try! loadImage("./Resources/John Appleseed.jpg")
 
 #### 5.6 Specifying Cleanup Actions「defer」
 
-You use a `defer` statement to execute a set of statements just before code execution leaves the current block of code, whether it leaves because an error was thrown or because of a statement such as return or break. 
+You use a `defer` statement to execute a set of statements just before code execution leaves the current block of code, whether it leaves because an error was thrown or because of a statement such as return or break.
 
 ```
 func processFile(filename: String) throws {
@@ -717,8 +724,8 @@ Main函数的入口，编译时根据模板生成main.swift文件
 ```
 import UIKit
 
-@UIApplicationMain	
-// no this modifier will raise compiling error: 
+@UIApplicationMain
+// no this modifier will raise compiling error:
 // implicit entry/start for main executable
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
