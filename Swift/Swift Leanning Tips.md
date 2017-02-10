@@ -297,6 +297,24 @@ func foo2(_ error: inout NSError?)
 _ = foo()
 ```
 
+#### 1.18 变长参数
+
+在Swift中使用变长参数，只需要在参数类型后面添加「...」即可实现，这点比Objective-C的实现更方便优雅，无需调用C方法；
+
+```
+var str = "Hello, playground"
+
+func send(_ items: [Any]...) {
+    print(items)
+}
+
+send([str])
+
+// output
+[["Hello, playground"]]
+
+```
+
 ### 2 Control Flow & Collections
 
 #### 2.1 Where
