@@ -69,7 +69,100 @@ appium --address 127.0.0.1 --port 4273
         └── com.xy.AVPlayerDemo.bt+lb+tf.assetpack
 ```
 
-#### 2.2 安装并启动编译后的应用程序
+##### 2.1.1 xcodebuild命令简介
+
+###### 1. 查看xcode支持的SDK
+
+```
+$xcodebuild -showsdks
+iOS SDKs:
+	iOS 10.2                      	-sdk iphoneos10.2
+
+iOS Simulator SDKs:
+	Simulator - iOS 10.2          	-sdk iphonesimulator10.2
+
+macOS SDKs:
+	macOS 10.12                   	-sdk macosx10.12
+
+tvOS SDKs:
+	tvOS 10.1                     	-sdk appletvos10.1
+
+tvOS Simulator SDKs:
+	Simulator - tvOS 10.1         	-sdk appletvsimulator10.1
+
+watchOS SDKs:
+	watchOS 3.1                   	-sdk watchos3.1
+
+watchOS Simulator SDKs:
+	Simulator - watchOS 3.1       	-sdk watchsimulator3.1
+```
+
+###### 2. Instruments支持的模拟器设备类型
+
+```
+$instruments -s devices
+
+Known Devices:
+hzyuxiaohua的Mac mini [B73BA4A0-ED69-5EFA-9DB8-D2E9CC16DBC7]
+Apple TV 1080p (10.1) [58C2290A-9A1E-45BC-88DF-679B4BF758A8] (Simulator)
+Apple Watch - 38mm (3.1) [F2656F43-B1E2-482A-8847-A52649733B2E] (Simulator)
+Apple Watch - 42mm (3.1) [8978202F-2A35-4CB4-B628-455A1B68782C] (Simulator)
+iPad Air (10.2) [EEEBA8BD-5CB2-4A85-8E50-D2E6891D7A69] (Simulator)
+iPad Air 2 (10.2) [438789A2-57C2-4845-8198-A18DFBC4C0A5] (Simulator)
+iPad Pro (12.9 inch) (10.2) [63A3331F-56B1-45FF-A351-FF91C7247293] (Simulator)
+iPad Pro (9.7 inch) (10.2) [F939AF17-F2D2-4E56-A449-0C102A80D3EF] (Simulator)
+iPad Retina (10.2) [785B6020-0FF3-4578-AD60-DF09693B9E89] (Simulator)
+iPhone 5 (10.2) [E5F1205C-99CF-472D-AAF8-396E632CC8ED] (Simulator)
+iPhone 5s (10.2) [5708E973-EE3C-409F-9454-BBAA10AB0FF8] (Simulator)
+iPhone 6 (10.2) [956DAAD6-7180-4045-B90D-4A9B2E87975D] (Simulator)
+iPhone 6 Plus (10.2) [AAB52FA6-B8E7-40EF-ADC8-E76F161B7288] (Simulator)
+iPhone 6s (10.2) [6BEE5359-479D-4572-88FE-0E0BB86B11BD] (Simulator)
+iPhone 6s Plus (10.2) [373EAF61-75DB-437E-B11C-45757C86A324] (Simulator)
+iPhone 7 (10.2) [48F0C129-61D6-4059-A160-B365AAD65E9F] (Simulator)
+iPhone 7 (10.2) + Apple Watch Series 2 - 38mm (3.1) [0CA54EDE-5E5C-44F8-BC83-0A61F8787E7F] (Simulator)
+iPhone 7 Plus (10.2) [C7B7C948-B904-496A-9BF8-90E4F618A953] (Simulator)
+iPhone 7 Plus (10.2) + Apple Watch Series 2 - 42mm (3.1) [C866B22B-ECBB-48E0-8BAF-213DCB656E4E] (Simulator)
+iPhone SE (10.2) [9DB54B0F-501B-47B0-937C-3C826589DD00] (Simulator)
+```
+
+###### 2. 查看目标工程
+
+```
+$xcodebuild -list
+Information about project "mail":
+    Targets:
+        mailmaster
+        mailmasterpro
+
+    Build Configurations:
+        Debug
+        Release
+        ReleaseBeta
+        ReleaseStore
+
+    If no build configuration is specified and -scheme is not passed then "ReleaseBeta" is used.
+
+    Schemes:
+        libetpan
+```
+
+###### 3. 编译一个复杂的工程
+
+```
+// product='mail'
+// scheme='mailmaster'
+$xcodebuild -workspace 「product」.xcworkspace -scheme 「scheme」 -destination 'platform=iOS Simulator,name=iPhone SE'
+
+// 生成的mail.app在以下绝对路径
+# Touch /Users/「home」/Library/Developer/Xcode/DerivedData/「product-udid」/Build/Products/Debug-iphonesimulator/mail.app
+
+```
+
+#### 2.2 Authorizing iOS Simulator
+
+具体授权方式[详见官方描述](http://appium.io/slate/en/master/?javascript#system-setup-ios)
+
+#### 2.3 安装并启动编译后的应用程序
 
 使用`Python-Client`为例，代码如下所示：
 
@@ -89,7 +182,27 @@ desired_caps['app'] = '/.../AbsolutePath/.../AVPlayerDemo.app'
 
 ```
 
-### 0x03 开始自动化测试
+### 0x03 RealDevice Automation Testing
+
+真机调试及配置[详见官方文档](https://github.com/appium/appium/blob/master/docs/en/appium-setup/real-devices-ios.md)
+
+### 0x04 Appium Desktop GUI Inspector
+
+#### 4.1 启动
+
+启动`Server`后，点击图片中**红框**内的按钮(这交互略扯，我用了半天居然没有发现这里面别有洞天)
+
+![](./Resources/appium-launch-inspector.jpg)
+
+#### 4.2 创建新的会话
+
+![](./Resources/appium-start-new-session.png)
+
+#### 4.3 开启Inspector
+
+![](./Resources/appium-inspector.png)
+
+### 0x05 开始自动化测试
 
 ![](./Resources/appium_demo_app.jpg)
 
@@ -129,3 +242,5 @@ tf.send_keys('qa@163.com')
 # print(tf.get_attribute('value'))
 driver.hide_keyboard()
 ```
+
+更多的[Capabilities详见官方文档](https://github.com/appium/appium/blob/master/docs/en/writing-running-appium/caps.md)
