@@ -787,3 +787,51 @@ class MyType {
 基本操作就不讲了，这里讲一个比较Trik的事情，「Module-Swift.h」引入时引发的编译不确定性因素。
 
 比如，存在「ModuleA-Swift.h」和「ModuleB-Swift.h」，若一个Objective-C的源文件被两个Module访问，但是又存在编译顺序的问题，就会出现编译失败的可能。
+
+## 二、Swift2适配
+
+## 三、Swift3适配
+
+### 3.1 UnsafeRawPointer
+
+在使用Objective-C或者C的API时，经常要转换指针类型，比如：
+
+```
+C style
+const unsigned char *pointer = (unsigned char *)socket_addr_in;
+
+Swift style
+let pointer = (unsigned char *)socket_addr_in;
+```
+
+直接在Swift下编译会出错，Swift为了类型转换更加安全，引入了如下转换方法：
+
+```
+UnsafeMutablePointer(&socket_addr_in).withMemoryRebound(to: UInt8.self, capacity: 1) {
+	// 将指针类型UnsafeMutablePointer<sockaddr_in> ===> UnsafeMutablePointer<Uint8>
+	// 该方法只是临时替换指针类型，跳出来该闭包后又恢复了原指针类型
+	// 由以上原因，所以该闭包禁止逃逸「escape」
+}
+
+// 闭包运行结束后，恢复原来的指针类型
+```
+
+我们来看一个简单的例子：
+
+```
+let a = UnsafeMutablePointer<UInt8>.allocate(capacity: 1)
+a.pointee = 255
+print("UInt8 value of a is: \(a.pointee)")
+a.withMemoryRebound(to: Int8.self, capacity: 1) {
+    print("Int8 value of a is: \($0.pointee)")
+}
+print("Origin UInt8 value of a is: \(a.pointee)")
+a.deallocate(capacity: 1)
+
+# output
+UInt8 value of a is: 255
+Int8 value of a is: -1
+Origin UInt8 value of a is: 255
+```
+
+更多关于指针类型转换[详见官方文档](https://swift.org/migration-guide/se-0107-migrate.html)或Swift的标准库`Pointer`内的API描述；
