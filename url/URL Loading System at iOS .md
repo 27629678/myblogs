@@ -125,19 +125,41 @@ one more thing, 它也支持代理服务器和Socks网关。
 
 ###-Understanding URL Session Concepts
 
+一个会话中的任务行为主要基于以下几点：
+
+- 会话类型
+- 任务类型
+- 创建会话时，App是否处于前台状态(Foreground)
+
 ####-Types of Sessions
 
-- Default sessions
-- Ephemeral sessions
-- Background sessions
+`NSURLSession`API支持三种类型的会话（创建时由会话配置决定其类型）：
+
+- Default sessions，与其它`Foundation`提供的下载方法类似，使用硬盘保存缓存，使用Key-Chain保存用户认证信息；
+- Ephemeral sessions，与其字面意思一样，是一个短暂的会话类型，不保存任何数据；所有的缓存、认证等信息保存在RAM（内存）中，在会话失效时，自动回收；
+- Background sessions，与`Default sessions`相似，不同之处在于该会话类型有独立的进程处理数据上传和下载；其使用受限的地方在[Background Transfer Considerations](https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/URLLoadingSystem/Articles/UsingNSURLSession.html#//apple_ref/doc/uid/TP40013509-SW44)介绍；
 
 ####-Types of Tasks
 
-- Data tasks
-- Downloads tasks
-- Upload tasks
+`NSURLSession`支持三种类型的任务：
+
+- Data tasks，使用`NSData`类型的数据发送和接收，`Data Tasks`被设计用来传输短小的数据，频繁与服务器通信的任务类型；
+- Downloads tasks，接收以文件为主的数据类型；
+- Upload tasks，发送以文件为主的数据类型；
 
 ####-Background Transfer Considerations
+
+`NSURLSession`支持**后台传输**，即便应用程序没有在运行的情况下；**后台传输**仅由`NSURLSession`支持，并且由创建时使用`background session configeration`指定为**后台传输**类型（通过调用`backgroundSessionConfiguration:`Delegate方法返回）；
+
+由于**后台传输**会话类型由独立的进程进行调度，再加之频繁唤起Target应用程序的代价太高，所以**后台传输**的特性在使用上有如下限制：
+
+- 会话**必须**提供事件传递的Delegate；
+- 仅支持`HTTP`和`HTTPS`；
+- Redirects are always followed.
+- 上传仅支持文件类型，不支持NSData或者NSStreamodga；
+- 如果**后台传输**在后台被创建，`configuration.discretionary`属性初始化为`true`；
+
+> **NOTE：**在iOS8和OS X 10.10以前，数据传输不支持**后台传输**；
 
 ####-Life Cycle and Delegate Interaction
 
