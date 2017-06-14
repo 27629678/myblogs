@@ -195,6 +195,18 @@ typedef void (^CompletionHandlerType)();
 
 ###-Creating and Configuring a Session
 
+`NSURLSession`API提供了丰富的配置选项：
+
+- 为单个会话提供私有存储，支持缓存，Cookies，凭证和协议等等；
+- 为一个或者一组Request提供认证服务；
+- 通过URL上传和下载文件，建议使用单独的数据；
+- 一个主机的最大连接数；
+- 设置超时；
+- 最低和最高TLS版本支持；
+- 自定义代理；
+- Cookie控制策略；
+- HTTP管道行为控制策略；
+
 code snippet:Creating and configuring sessions
 
 ```

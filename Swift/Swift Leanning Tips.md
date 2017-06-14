@@ -788,6 +788,18 @@ class MyType {
 
 比如，存在「ModuleA-Swift.h」和「ModuleB-Swift.h」，若一个Objective-C的源文件被两个Module访问，但是又存在编译顺序的问题，就会出现编译失败的可能。
 
+### 10 Safe Bitwise Operators
+
+如+、\-、\*等操作符会导致结果的上溢和下溢，所以在操作**二进制**数据时，swift加入了安全的位运算符，就是在运算符前加**&**；如：
+
+```
+let min = Int.max + 1	// crash at runtime
+
+let min = Int.max &+ 1 	// result is equal to Int.min
+```
+
+[StackOverflow](https://stackoverflow.com/documentation/swift/1048/advanced-operators/14662/overflow-operators#t=201706140237593700754)
+
 ## 二、Swift2适配
 
 ## 三、Swift3适配
