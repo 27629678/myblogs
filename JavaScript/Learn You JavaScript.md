@@ -485,3 +485,10 @@ export default class { ··· } // no semicolon!
 import MyClass from 'MyClass';
 const inst = new MyClass();
 ```
+#### 17 关于This
+
+学习this的第一步是明白：
+
+1. this既不指向函数自身也不指向函数的'词法作用域'，抛开以前的错误假设和理解；
+2. this实际上是在函数被调用时发生的绑定，它指向什么完全取决于函数在哪里被调用；
+
