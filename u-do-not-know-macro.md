@@ -1,6 +1,6 @@
 ## 你不知道的宏定义
 
-### 1. 双#号的功能
+### 1. 双#号的功能-Token粘贴操作符
 
 可能大家对双#号的了解是合并前后内容，例如：
 
@@ -41,3 +41,23 @@ do {
 }while(0);
 
 ```
+### 2. Objective-C中的单#号
+
+```
+/*!
+ * @define XCTAssertTrue(expression, ...)
+ * Generates a failure when ((\a expression) == false).
+ * @param expression An expression of boolean type.
+ * @param ... An optional supplementary description of the failure. A literal NSString, optionally with string format specifiers. This parameter can be completely omitted.
+*/
+#define XCTAssertTrue(expression, ...) \
+    _XCTPrimitiveAssertTrue(self, expression, @#expression, __VA_ARGS__)
+```
+
+在上面的代码中，单#号的作用是将expression字符化，即#expression -> "expression", C字符串，再在前面加一个@（objc的编译符号）即@"expression"转化为NSString类型；
+
+注意事项：
+
+- \#操作符并不是简单的增加双引号，它会自动对特殊符号进行转义
+- \#操作符只能对func-like的参数使用
+- 由于参数会转化为 token 列表，所以前后的空白符都会被忽略，中间的空白符会被压缩为一个，注释会被忽略并变成一个空白符。
