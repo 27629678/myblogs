@@ -1,20 +1,20 @@
-#ios自动编译打包工具
+# ios自动编译打包工具
 
-##一、XCode配置方法
+## 一、XCode配置方法
 
-####1、xcconfig文件
+#### 1、xcconfig文件
 
 目标：解耦工程配置文件
 
-#####- 关于xcconfig 文件
+##### - 关于xcconfig 文件
 
 `xcconfig`文件是一个用来保存`build setting`键值对的纯文本文件, 这些键值对会覆盖`build setting`中的值，所以当你在`xcconfig`文件中配置了的选项在`build setting` 中保持默认值就好了（因为是什么都不会起作用了）。
 
-#####- 如何使用
+##### - 如何使用
 
 点击工程文件，切到`info Tab`,定位到`Configurations`选项（实际上这个 tab 下的选项并不多，一眼就瞄到了），点开`Configurations`前面的小箭头，看到了分为`Debug`和`Release`，分别点击`Debug`与`Release`选择对应的 xcconfig 文件（Debug 对应 Debug.xcconfig，Release 对应 Release.xcconfig）。
 
-####2、给类起个别名
+#### 2、给类起个别名
 
 **@compatibility_alias**
 
@@ -35,7 +35,7 @@ There are some constraints on how this can be used--
 
 >NOTE:`@compatibility_alis`是用于给一个类设置一个别名,这样就不用重构以前的类文件就可以用新的名字来替代原有名字。
 
-####3、@import的使用
+#### 3、@import的使用
 
 与#import的区别：
 
@@ -45,7 +45,7 @@ There are some constraints on how this can be used--
 
 >NOTE:@import主要使用在写framework时使用，平时写应用程序建议不要使用
 
-####4、添加警告
+#### 4、添加警告
 
 1、普通警告
 
@@ -65,7 +65,7 @@ There are some constraints on how this can be used--
 - (void)addTapAction:(SEL)tapAction target:(id)target __attribute((deprecated("这个接口会爆内存 不建议使用")));
 ```
 
-####5、\_\_attribute\_\_(noinline)
+#### 5、\_\_attribute\_\_(noinline)
 
 ```
 __attribute__((noinline)) void warnOnMissingEventName() {
@@ -76,7 +76,7 @@ __attribute__((noinline)) void warnOnMissingEventName() {
 
 >没有什么特别的作用，告诉编译器不要将该短小的代码段优化成**inline**的方法，类似的还有`__attribute__((always_inline))`等;
 
-##二、iOS 自动打包教程
+## 二、iOS 自动打包教程
 
 打包常用命令行工具（如何下载请自行脑补）：xcodebuild和xcrun。
 
