@@ -104,4 +104,38 @@ int main() {
 
 做一个简单的分析，以上代码编译+运行没有问题，也是按预期执行的；
 
-#### 2.1 
+#### 2.1 isProxy方法
+
+刚开始接触Objective-C学习的时候，发现`NSObject`协议下的`- (BOOL)isProxy`getter方法的作用是什么，即使是看了说明文档在常规开发中几乎很少用的到；
+
+先看一下文档说明：
+
+*Returns a Boolean value that indicates whether the receiver does not descend from NSObject.*
+
+*This method is necessary because sending isKindOfClass: or isMemberOfClass: to an NSProxy object will test the object the proxy stands in for, not the proxy itself. Use this method to test if the receiver is a proxy (or a member of some other root class).*
+
+简单翻译一下，大概意思是“返回一个布尔值用于标识消息接收对象是否派生自`NSObject`基类的实例；这个方法很有必要，尤其是消息接收对象是一个`NSProxy`对象时，因为诸如`isKindOfClass:`等消息是发送给`NSProxy`代理的对象（以上原代码中，NEProxy代理的对象是target）而不是`NSProxy`的实例；`YES`表示消息接收对象是一个`NSProxy`实例；否则`NO`表示消息接收对象是一个`NSObject`实例；
+
+#### 2.2 消息转发的过程
+
+上述原代码中，以`[(NSString *)proxy length]`为例，直接给proxy对象发送length消息会出现编译错误，原因很简单，proxy这个类没有length成员方法，所以这里加了一个强制类型转换用于骗过编译器，便于在运行时时可以成功转发length消息到proxy对象；大体流程如下图所示：
+
+![message_forward_invocation](./Resources/nsproxy_message_forward.png)
+
+后面再详细介绍`forwardInvocation：`和`methodSignatureForSelector：`的注意事项；
+
+#### 2.3 对比结论
+
+在NSProxy中，以下方法：
+
+```
+- (BOOL)isKindOfClass:(Class)aClass;
+- (BOOL)isMemberOfClass:(Class)aClass;
+- (BOOL)conformsToProtocol:(Protocol *)aProtocol;
+- (BOOL)respondsToSelector:(SEL)aSelector;
+
+```
+
+会被转发到代理对象中，其它方法的调用与NSObject表现均一致，若有新的发现，请多多指教；
+
+> **NOTE：**
