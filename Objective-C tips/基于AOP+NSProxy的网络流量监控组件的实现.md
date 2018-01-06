@@ -15,7 +15,7 @@ AOP（切面编程，Aspect Oriented Programming的缩写），实现DI（信赖
 
 ### 0x02 NSProxy介绍
 
-与`NSObject`类（class）一样，另外一个实现`<NSObject>`协议的基类，与`NSObject`基类不同之处，`NSProxy`是一个抽象基类，没有默认的`initializer`方法，需要子类去实现；并且在子类中必须实现以下两个方法：
+与`NSObject`类（root class）一样，另外一个实现`<NSObject>`协议的基类，与`NSObject`基类不同之处，`NSProxy`是一个抽象基类，没有默认的`initializer`方法，需要子类去实现；并且在子类中必须实现以下两个方法：
 
 - \- (void)forwardInvocation:(NSInvocation *)invocation;
 - \- (nullable NSMethodSignature *)methodSignatureForSelector:(SEL)sel;
@@ -164,7 +164,7 @@ __unused NSNumber *length2 = [proxy performSelector:@selector(length)];
 
 - (void)startInterceptURLConnection
 {
-self.urlConnectionInterceptTokens = [NSMutableArray array];
+	self.urlConnectionInterceptTokens = [NSMutableArray array];
     
     id token_init =
     [NSURLConnection aspect_hookSelector:@selector(initWithRequest:delegate:)
@@ -181,7 +181,7 @@ self.urlConnectionInterceptTokens = [NSMutableArray array];
          [proxy proxyUsingDelegate:delegate];
          
          [instance.originalInvocation setArgument:&proxy atIndex:3];
-         // 通过arguments 持有proxy
+
          if (instance.arguments) {
              NSLog(@"");
          }
@@ -291,7 +291,7 @@ self.urlConnectionInterceptTokens = [NSMutableArray array];
 ```
 # Monitor Message: {
 	Instance: 0x600000c5e180
-	Url:http://220.181.14.110/apptrack/confinfo/searchMultiAds.do
+	Url:http://host/apptrack/.../searchMultiAds.do
 	Send Data: 280 bytes
 	Receive Data: 1840 bytes
 	Error:(null)
