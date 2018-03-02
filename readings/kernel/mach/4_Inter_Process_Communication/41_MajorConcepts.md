@@ -1,4 +1,4 @@
-## 0x04 IPC(进程间通信）
+Next：[消息接口设计]()，Up：[Top](../4_Inter_Process_Communication.md)
 
 ### 4.1 主要概念
 
