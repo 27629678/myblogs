@@ -1,6 +1,16 @@
 ## Mach内核抽象
 
-Mach提供了简单并功能强大的一系列抽象，主要的抽象如下：
+**Mach**负责管理处理器资源，如CPU使用和存储，调度，为上层系统应用提供存储保护和基于消息基础设施服务；提供了如下组件：
+
+- 无类型的IPC服务
+- RPC
+- 多处理调度（SMP）
+- 虚拟存储（VM）
+- 实时（real-time）服务
+- 支持分页（support for pagers）
+- 模块化结构
+
+**Mach**提供了简单并功能强大的一系列抽象，主要的抽象如下：
 
 - Tasks，拥有资源的单元；每个Task由虚拟内存空间（virtual address space），端口权限命名空间（port right namespace），一个（或多个）线程组成；
 - Threads，一个Task中可在CPU上运行的单元，其资源由其父Task提供；
