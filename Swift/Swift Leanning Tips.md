@@ -781,6 +781,8 @@ class MyType {
 
 > Stored type properties are lazily initialized on their first access. They are guaranteed to be initialized only once(线程安全的，所以可以用来生成单例的实例), even when accessed by multiple threads simultaneously, and they do not need to be marked with the lazy modifier.
 
+> NOTE: If a property marked with the lazy modifier is accessed by multiple threads simultaneously and the property has not yet been initialized, there is no guarantee that the property will be initialized only once.
+
 
 ### 9 Objective-C and Swift in same project
 
