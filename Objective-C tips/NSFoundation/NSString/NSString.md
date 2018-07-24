@@ -2,7 +2,7 @@
 
 > NOTE: length的值为字符串UTF16编码**码元（code unit）**的个数
 
-![emoji](/home/hzyuxiaohua/projects/markdowns/Resources/emoji-family-man-man-girl-boy.png)
+![emoji](./res/emoji-family-man-man-girl-boy.png)
 
 对，就是上面这个`emoji`表情，string.length = 11; 非常惊讶！
 
