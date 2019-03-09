@@ -41,6 +41,15 @@ final public class FOO { ... }
 
 以上代码表示类FOO禁止被**继承**；
 
+### 1.2 Exception
+
+`Java`语言内分为以下两种类型的异常：
+
+1. **Checked**：只能在`try-catch`代码块内调用可能抛出**checked**异常的方法
+2. **Unchecked**：不一定需要`try-catch`代码块内；
+
+> NOTE：[Here's the bottom line guideline: If a client can reasonably be expected to recover from an exception, make it a checked exception. If a client cannot do anything to recover from the exception, make it an unchecked exception.](https://docs.oracle.com/javase/tutorial/essential/exceptions/runtime.html)，官方文档最底部。
+
 ## 2. 注解（Anatations）
 
 JDK 1.5引入注解概念；
