@@ -30,6 +30,28 @@
 
 > 说明：反编译出的字节码文件显示每次循环都会new出一个StringBuilder对象，然后进行append操作，最后通过toString方法返回String对象，造成内存资源浪费。
 
+#### 1.1.5 ArrayList的subList结果不可强制转换为ArrayList，否则会抛出ClassCastException异常，如下所示：
+
+```
+java.util.RandomAccessSubList cannot be cast to java.util.ArrayList.
+```
+
+> 说明：`subList`返回的是`ArrayList`的内部类`SubList`，并不是`ArrayList`，而是`ArrayList`的一个视图，对于`subList`子列表的所有操作最终会反映到原列表上。
+
+#### 1.1.6 在使用工具类Arrays.asList()把数组转换成集合时，不能使用其修改集合相关的方法。
+
+它的add/remove/clear方法会抛出UnsupportedOperationException异常。
+
+```
+String[] str = new String[]{ "you", "wu" };
+List list = Arrays.asList(str);
+
+// 第一种情况：list.add("yu")运行时报错；
+// 第二种情况：如果str[0] = "mine";, 那么list.get(0)也会随之修改；
+```
+
+> 说明：asList的返回对象是一个Arrays的内部类，并没有实现集合的修改方法。Arrays.asList体现的是适配器模式，只是转换接口，后台的数据仍是数组。
+
 ## 1、关键字
 
 ### 1.1 final
