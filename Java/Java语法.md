@@ -95,6 +95,12 @@ final public class FOO { ... }
 
 以上代码表示类FOO禁止被**继承**；
 
+#### 1.1.5 修饰常量
+
+```
+final float PI = 3.14;	// 在编译阶段放入常量池（Java一项重要技术）
+```
+
 ### 1.2 Exception
 
 `Java`语言内分为以下两种类型的异常：
