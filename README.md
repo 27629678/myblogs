@@ -61,16 +61,19 @@
 
 - 小米路由器 AC2100
 
+****
 2019年入手玩具：
 
 - iPhone XS Max
 - 罗技 MX Master 2S
 
+****
 2018入手的玩具：
 
 - 电竞椅
 - Loctek双屏显示屏支架
 
+****
 2017年入手的玩具：
 
 - Apple Watch (S3-WiFi)
