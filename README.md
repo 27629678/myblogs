@@ -57,6 +57,15 @@
 
 ****
 
+2020年入手玩具：
+
+- 小米路由器 AC2100
+
+2019年入手玩具：
+
+- iPhone XS Max
+- 罗技 MX Master 2S
+
 2018入手的玩具：
 
 - 电竞椅
@@ -79,8 +88,8 @@
 ****
 2015年入手的玩具：
 
-- poker3机械键盘
-- raspberry pi 2 B+
+- Poker3机械键盘
+- Raspberry pi 2 B+
 - AKG 450耳机
 - 车载吸尘器
 - OnePlus 2(16G碳黑）
