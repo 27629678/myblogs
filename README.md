@@ -84,7 +84,7 @@
 ****
 2016年入手的玩具：
 
-- 三星上网本（win10)
+- 三星上网本（win10，2021年初二手回收，500+)
 - Apple Magic Trackpad(II代)
 - iPad Mini(32G)
 
@@ -105,16 +105,16 @@
 
 - iPad air2（64G）
 - 高清摄像头（罗技）
-- 红米Note手机
-- Google Nexus 5手机
-- MacBookPro(13寸）
+- 红米Note手机，2017年退役
+- Google Nexus 5手机，真水货，哈哈
+- MacBookPro(13寸），2021年初二手回收了（2100+）
 
 ****
 2013年入手的玩具：
 
-- iPod Shuffle（蓝）
-- iPhone 4S（16G白）
-- Kindle Paperwhite(Wi-Fi版）
+- iPod Shuffle（蓝，当前为收藏品）
+- iPhone 4S（16G白，2018年屏幕碎成为失踪人口）
+- Kindle Paperwhite(Wi-Fi版，2019年开机后死机，吃灰偶尔盖个泡面）
 
 [1]:./Resources/MailMasterPro_2016-01-30.png
 [2]:./Resources/MailMaster_2016-01-30.png
